@@ -1,4 +1,4 @@
-import { ruleStringToMap, ruleMapToString } from "./lib/lSystem";
+import { ruleStringToMap, ruleMapToString } from "@/app/lib/lSystem";
 
 export default function Home() {
     const ruleString = "a:aa|b:ab|c:a";
