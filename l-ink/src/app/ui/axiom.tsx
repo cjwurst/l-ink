@@ -24,7 +24,7 @@ export default function Axiom() {
             </div>
             <input 
                 id="axiom" 
-                className="peer block outline-2 w-full border border-gray-200 text-black" 
+                className="peer block outline-2 w-full border border-slate-500 bg-slate-200 text-black" 
                 onChange={ (e) => { handleAxiom(e.target.value); }}
                 defaultValue = {searchParams.get('axiom')?.toString()}
             />
