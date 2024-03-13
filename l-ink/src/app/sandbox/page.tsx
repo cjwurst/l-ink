@@ -62,9 +62,6 @@ export default function Page() {
                     vertexColors
                 />
             </mesh>
-            {/* <mesh>
-                <boxGeometry />
-            </mesh> */}
         </Canvas>
     )
 }
