@@ -30,8 +30,13 @@ export default function Page() {
 
     return (
         <LSystemDisplay 
-            lString = "a" 
-            drawRules = { new Map([["a", DrawInstruction.FORWARD]]) }
+            origin = {[0, 0, 0]}
+            lString = "a-aa-a-aa" 
+            drawRules = { new Map([
+                ["a", DrawInstruction.FORWARD],
+                ["+", DrawInstruction.TURN_LEFT],
+                ["-", DrawInstruction.TURN_RIGHT]
+            ]) }
         />
     )
 }
