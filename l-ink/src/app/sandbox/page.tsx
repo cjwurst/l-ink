@@ -1,7 +1,7 @@
 'use client';
 
-import { Canvas } from "@react-three/fiber"
-import { DoubleSide } from "three";
+import LSystemDisplay from "@/app/ui/lSystemDisplay";
+import DrawInstruction from "@/app/lib/drawInstruction";
 
 export default function Page() {
     const positions = new Float32Array([
@@ -29,39 +29,9 @@ export default function Page() {
     const vertexCount = positions.length/3;
 
     return (
-        <Canvas>
-            <ambientLight />
-            <mesh>
-                <bufferGeometry>
-                    <bufferAttribute
-                        attach='attributes-position'
-                        array = {positions}
-                        count={vertexCount}
-                        itemSize={3}
-                    />
-                    <bufferAttribute
-                        attach='attributes-normals'
-                        array = {normals}
-                        count={vertexCount}
-                        itemSize={3}
-                    />
-                    <bufferAttribute
-                        attach='attributes-color'
-                        array = {colors}
-                        count={vertexCount}
-                        itemSize={4}
-                    />
-                    <bufferAttribute
-                        attach='index'
-                        array = {indices}
-                        count={indices.length}
-                        itemSize={1}
-                    />
-                </bufferGeometry>
-                <meshStandardMaterial 
-                    vertexColors
-                />
-            </mesh>
-        </Canvas>
+        <LSystemDisplay 
+            lString = "a" 
+            drawRules = { new Map([["a", DrawInstruction.FORWARD]]) }
+        />
     )
 }
