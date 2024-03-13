@@ -16,7 +16,9 @@ export default function Ruleset() {
         params.set('ruleset', ruleString);
         replace(`${pathname}?${params.toString()}`);
     }
-    setRules(ruleString);       // This ensures our rules end with "|" when this page is first rendered
+
+    // TODO: use effect to call this outside rendering
+    //setRules(ruleString);       // This ensures our rules end with "|" when this page is first rendered
 
     function getRuleString(): string {
         return searchParams.get("ruleset")?.toString() || "";
@@ -42,7 +44,7 @@ export default function Ruleset() {
             {getRuleArray().map((rule, i) => {
                 return (
                     <input 
-                        id="ruleset" 
+                        key={`rule${i}`}
                         className="peer mt-5 block outline-2 w-full border border-slate-500 bg-slate-200 text-black"  
                         onChange={ (e) => { handleRuleChange(e.target.value, i); }}
                         defaultValue = { rule }
