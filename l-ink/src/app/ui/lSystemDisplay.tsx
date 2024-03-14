@@ -15,8 +15,6 @@ export default function LSystemDisplay({ origin, lString, drawRules }: LSystemPr
     let angle:number = 0;
     let position = origin;
     for (let i = 0; i < lString.length; i++) {
-        console.log(`position: ${position}`);
-        console.log(`angle: ${angle/Math.PI}*PI`);
         switch (drawRules.get(lString[i])) {
             case DrawInstruction.FORWARD:
                 position = [
@@ -34,7 +32,6 @@ export default function LSystemDisplay({ origin, lString, drawRules }: LSystemPr
                 break;
         }
     }
-    console.log(points);
 
     return (
         <Canvas>
