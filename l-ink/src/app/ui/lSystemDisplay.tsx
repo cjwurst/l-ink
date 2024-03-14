@@ -2,7 +2,6 @@
 
 import { Canvas } from '@react-three/fiber'
 import DrawInstruction from '@/app/lib/drawInstruction';
-import { ReactNode } from 'react';
 import { Line } from '@react-three/drei';
 
 type LSystemProps = {
