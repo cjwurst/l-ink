@@ -1,7 +1,7 @@
 enum DrawInstruction {
-    FORWARD,
-    TURN_LEFT,
-    TURN_RIGHT,
+    FORWARD = "Forward",
+    TURN_LEFT = "Turn Left",
+    TURN_RIGHT = "Turn Right",
 }
 
 export default DrawInstruction;

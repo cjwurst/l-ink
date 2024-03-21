@@ -1,6 +1,8 @@
 'use client';
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import Rule from '@/app/ui/rule';
+import DrawInstruction from '../lib/drawInstruction';
 
 export default function Ruleset() {
     const searchParams = useSearchParams();
@@ -28,29 +30,40 @@ export default function Ruleset() {
         return getRuleString().split("|");
     }
 
-    function handleRuleChange(term: string, i: number) {
+    function getAlphabetArray(): string[] {
+        return Array.from(searchParams.get("alphabet")?.toString() || "")
+    }
+
+    function handleChangeImage(preimage: string, image: string) {
         let rules = getRuleArray();
-        if (term) {
-            rules[i] = term;
+        const i = rules.findIndex((rule) => rule.startsWith(preimage))
+        if (image) {
+            rules[i] = image;
         } else {
             rules.splice(i, 1);
         }
         setRules(rules.join("|"));
     }
 
+    function handleChangeDrawRule(preimage: string, drawRule: DrawInstruction) {
+
+    }
+
     return (
-        <div className="relative flex flex-col pt-5 flex-grow">
-            <div className="w-24"> Rules: </div>
-            {getRuleArray().map((rule, i) => {
-                return (
-                    <input 
-                        key={`rule${i}`}
-                        className="peer mt-5 block outline-2 w-full border border-slate-500 bg-slate-200 text-black"  
-                        onChange={ (e) => { handleRuleChange(e.target.value, i); }}
-                        defaultValue = { rule }
+        <div className="flex flex-col pt-5">
+            <div> Rules: </div>
+            {getAlphabetArray().map((p) => {
+                return(
+                    <Rule
+                        key={p}
+                        preimage={p}
+                        defaultImage={""}
+                        defaultDrawRule={DrawInstruction.FORWARD}
+                        handleChangeImage={(image: string) => handleChangeImage(p, image)}
+                        handleChangeDrawRule={(drawRule: DrawInstruction) => handleChangeDrawRule(p, drawRule)}
                     />
-                )}
-            )}
+                );
+            })}
         </div>
     );
 }
