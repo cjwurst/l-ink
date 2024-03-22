@@ -2,33 +2,15 @@
 
 import LSystemDisplay from "@/app/ui/lSystemDisplay";
 import DrawInstruction from "@/app/lib/drawInstruction";
+import SideConfig from "@/app/ui/sideconfig";
 
 export default function Page() {
-    const positions = new Float32Array([
-        1, 0, 0,
-        0, 1, 0,
-        -1, 0, 0,
-        0, -1, 0
-    ])
-    const normals = new Float32Array([
-        0, 0, 1,
-        0, 0, 1,
-        0, 0, 1,
-        0, 0, 1,
-    ])
-    const colors = new Float32Array([
-        1, 1, 1, 1,
-        1, 1, 1, 1,
-        1, 1, 1, 1,
-        0, 1, 0, 1,
-    ])
-    const indices = new Uint16Array([
-        0, 1, 3,
-        2, 3, 1,
-    ])
-    const vertexCount = positions.length/3;
-
-    return (
+    return (<div>
+        <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
+            <div className="w-full flex-none md:w-1/4">
+                <SideConfig />
+            </div>
+        </div>
         <LSystemDisplay 
             origin = {[0, 0, 0]}
             lString = "a-aa-a-aa" 
@@ -38,5 +20,7 @@ export default function Page() {
                 ["-", DrawInstruction.TURN_RIGHT]
             ]) }
         />
+    </div>
+        
     )
 }
