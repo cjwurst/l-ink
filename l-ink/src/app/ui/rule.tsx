@@ -13,7 +13,7 @@ type RuleProps = {
 export default function Rule({preimage, defaultImage, defaultDrawRule, handleChangeImage, handleChangeDrawRule}: RuleProps) {
     return (
         <div className="flex flex-row mt-4">
-            <div className="w-8">
+            <div className="w-8 flex-grow">
                 {preimage} ↦
             </div>
             <input 
