@@ -6,16 +6,16 @@ import { Line } from '@react-three/drei';
 
 type LSystemProps = {
     origin: [number, number, number]
-    lString: string
+    lWord: string
     drawRules: Map<string, DrawInstruction>
 }
 
-export default function LSystemDisplay({ origin, lString, drawRules }: LSystemProps) {
+export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemProps) {
     let points:[number, number, number][] = [origin];
     let angle:number = 0;
     let position = origin;
-    for (let i = 0; i < lString.length; i++) {
-        switch (drawRules.get(lString[i])) {
+    for (let i = 0; i < lWord.length; i++) {
+        switch (drawRules.get(lWord[i])) {
             case DrawInstruction.FORWARD:
                 position = [
                     position[0] + Math.cos(angle), 
