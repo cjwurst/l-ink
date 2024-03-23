@@ -1,20 +1,17 @@
 'use client';
 
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+type AxiomProps = {
+    axiom:string
+    setAxiom:(a:string) => void
+}
 
-export default function Axiom() {
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const { replace } = useRouter();
-
-    function handleAxiom(term: string) {
-        const params = new URLSearchParams(searchParams);
+export default function Axiom({axiom, setAxiom}: AxiomProps) {
+    function handleChange(term: string) {
         if (term) {
-            params.set('axiom', term);
+            setAxiom(term);
         } else {
-            params.delete('axiom');
+            setAxiom("");
         }
-        replace(`${pathname}?${params.toString()}`);
     }
 
     return (
@@ -25,8 +22,8 @@ export default function Axiom() {
             <input 
                 id="axiom" 
                 className="peer block outline-2 w-full border border-slate-500 bg-slate-200 text-black" 
-                onChange={ (e) => { handleAxiom(e.target.value); }}
-                defaultValue = {searchParams.get('axiom')?.toString()}
+                onChange={ (e) => { handleChange(e.target.value); }}
+                value = {axiom}
             />
         </div>
     );

@@ -10,13 +10,20 @@ import Ruleset from '@/app/ui/ruleset';
 import IterateButton from '@/app/ui/renderButton';
 
 type LSystemProps = {
+    defaultAxiom: string
     defaultAlphabet: string
     defaultIterateRules: Map<string, string>
     defaultDrawRules: Map<string, DrawInstruction>
 }
 
-export default function LSystem({defaultAlphabet, defaultIterateRules, defaultDrawRules}: LSystemProps) {
-    const [alphabet, setAlphabet] = useState("");
+export default function LSystem({
+    defaultAxiom, 
+    defaultAlphabet, 
+    defaultIterateRules, 
+    defaultDrawRules
+}: LSystemProps) {
+    const [axiom, setAxiom] = useState(defaultAxiom);
+    const [alphabet, setAlphabet] = useState(defaultAlphabet);
     const [drawRules, setDrawRules] = useState(new Map());
     const [iterateRules, setIterateRules] = useState(new Map());
     const [lWord, setLWord] = useState("");
@@ -58,7 +65,10 @@ export default function LSystem({defaultAlphabet, defaultIterateRules, defaultDr
                                 alphabet={alphabet}
                                 setAlphabet={setAlphabet}
                             />
-                            <Axiom />
+                            <Axiom 
+                                axiom={axiom}
+                                setAxiom={setAxiom}
+                            />
                             <Ruleset 
                                 alphabet={alphabet}
                                 defaultIterateRules={defaultIterateRules}
