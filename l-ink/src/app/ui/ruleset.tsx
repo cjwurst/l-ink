@@ -1,34 +1,33 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import Rule from '@/app/ui/rule';
 import DrawInstruction from '../lib/drawInstruction';
 
 type RulesetProps = {
     alphabet: string
-    defaultIterateRules: Map<string, string>
-    defaultDrawRules: Map<string, DrawInstruction>
+    iterateRules: Map<string, string>
+    setIterateRules: (r:Map<string, string>) => void
+    drawRules: Map<string, DrawInstruction>
+    setDrawRules: (r:Map<string, DrawInstruction>) => void
 }
 
-export default function Ruleset({alphabet, defaultIterateRules, defaultDrawRules}: RulesetProps) {
-    const pathname = usePathname();
-    const ruleString = getRuleString();
-
-    //TODO
-    function getRuleString(): string {
-        return "";
-    }
-
+export default function Ruleset({alphabet, iterateRules, setIterateRules, drawRules, setDrawRules}: RulesetProps) {
     function getAlphabetArray(): string[] {
         return Array.from(alphabet);
     }
 
-    //TODO
+    function getIterateRule(preimage: string): string {
+        return "";
+    }
+
+    function getDrawRule(preimage: string): DrawInstruction {
+        return DrawInstruction.FORWARD;
+    }
+
     function handleChangeImage(preimage: string, image: string) {
         
     }
 
-    //TODO
     function handleChangeDrawRule(preimage: string, drawRule: DrawInstruction) {
 
     }
@@ -36,15 +35,15 @@ export default function Ruleset({alphabet, defaultIterateRules, defaultDrawRules
     return (
         <div className="flex flex-col pt-5">
             <div> Rules: </div>
-            {getAlphabetArray().map((p) => {
+            {getAlphabetArray().map((preimage) => {
                 return(
                     <Rule
-                        key={p}
-                        preimage={p}
-                        defaultImage={""}
-                        defaultDrawRule={DrawInstruction.FORWARD}
-                        handleChangeImage={(image: string) => handleChangeImage(p, image)}
-                        handleChangeDrawRule={(drawRule: DrawInstruction) => handleChangeDrawRule(p, drawRule)}
+                        key={preimage}
+                        preimage={preimage}
+                        image={getIterateRule(preimage)}
+                        drawRule={getDrawRule(preimage)}
+                        onChangeImage={(image: string) => handleChangeImage(preimage, image)}
+                        onChangeDrawRule={(drawRule: DrawInstruction) => handleChangeDrawRule(preimage, drawRule)}
                     />
                 );
             })}

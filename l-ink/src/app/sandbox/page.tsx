@@ -7,7 +7,11 @@ import DrawInstruction from "../lib/drawInstruction";
 export default function Page() {
     const searchParams = useSearchParams();
 
-    function getAlphabetString(): string {
+    function getAxiom(): string {
+        return searchParams.get("axiom")?.toString() || "";
+    }
+
+    function getAlphabet(): string {
         return searchParams.get("alphabet")?.toString() || "";
     }
 
@@ -34,7 +38,8 @@ export default function Page() {
     return (
         <div className="bg-slate-800">
             <LSystem 
-                defaultAlphabet={getAlphabetString()}
+                defaultAxiom={getAxiom()}
+                defaultAlphabet={getAlphabet()}
                 defaultIterateRules={getIterateRules()}
                 defaultDrawRules={getDrawRules()}
             />
