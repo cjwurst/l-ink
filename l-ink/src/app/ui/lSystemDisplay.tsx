@@ -4,13 +4,13 @@ import { Canvas } from '@react-three/fiber'
 import DrawInstruction from '@/app/lib/drawInstruction';
 import { Line } from '@react-three/drei';
 
-type LSystemProps = {
+type LSystemDisplayProps = {
     origin: [number, number, number]
     lWord: string
     drawRules: Map<string, DrawInstruction>
 }
 
-export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemProps) {
+export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemDisplayProps) {
     let points:[number, number, number][] = [origin];
     let angle:number = 0;
     let position = origin;
