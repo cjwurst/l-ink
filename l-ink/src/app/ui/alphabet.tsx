@@ -1,29 +1,24 @@
 'use client';
 
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+type AlphabetProps = {
+    alphabet: string
+    setAlphabet: (s:string) => void
+}
 
-export default function Alphabet() {
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const { replace } = useRouter();
-
+export default function Alphabet({alphabet, setAlphabet}: AlphabetProps) {
     const reservedChars:string[] = ["|", ":"];
 
     function handleChange(term: string) {
-        const params = new URLSearchParams(searchParams);
         const chars = Array.from(term);
-        console.log(chars);
         const alphabet = chars.filter((c, i) => { 
-            return chars.indexOf(c) === i &&           // remove duplicates
-            reservedChars.indexOf(c) === -1     // remove reserved characters
+            return chars.indexOf(c) === i &&            // remove duplicates
+                reservedChars.indexOf(c) === -1         // remove reserved characters
         }).join("");        
-        console.log(alphabet);
         if (term) {
-            params.set('alphabet', alphabet);
+            setAlphabet(alphabet);
         } else {
-            params.delete('alphabet');
+            setAlphabet("");
         }
-        replace(`${pathname}?${params.toString()}`);
     }
 
     return (
@@ -35,7 +30,7 @@ export default function Alphabet() {
                 id="alphabet" 
                 className="peer block outline-2 w-full border border-slate-500 bg-slate-200 text-black" 
                 onChange={ (e) => { handleChange(e.target.value); }}
-                defaultValue = {searchParams.get('alphabet')?.toString()}
+                value = {alphabet}
             />
         </div>
     );

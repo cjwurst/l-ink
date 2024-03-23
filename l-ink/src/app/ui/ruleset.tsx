@@ -5,12 +5,12 @@ import Rule from '@/app/ui/rule';
 import DrawInstruction from '../lib/drawInstruction';
 
 type RulesetProps = {
-    defaultAlphabet: string
+    alphabet: string
     defaultIterateRules: Map<string, string>
     defaultDrawRules: Map<string, DrawInstruction>
 }
 
-export default function Ruleset({defaultAlphabet, defaultIterateRules, defaultDrawRules}: RulesetProps) {
+export default function Ruleset({alphabet, defaultIterateRules, defaultDrawRules}: RulesetProps) {
     const pathname = usePathname();
     const ruleString = getRuleString();
 
@@ -20,7 +20,7 @@ export default function Ruleset({defaultAlphabet, defaultIterateRules, defaultDr
     }
 
     function getAlphabetArray(): string[] {
-        return Array.from(defaultAlphabet);
+        return Array.from(alphabet);
     }
 
     //TODO

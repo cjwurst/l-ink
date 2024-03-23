@@ -16,6 +16,7 @@ type LSystemProps = {
 }
 
 export default function LSystem({defaultAlphabet, defaultIterateRules, defaultDrawRules}: LSystemProps) {
+    const [alphabet, setAlphabet] = useState("");
     const [drawRules, setDrawRules] = useState(new Map());
     const [iterateRules, setIterateRules] = useState(new Map());
     const [lWord, setLWord] = useState("");
@@ -53,10 +54,13 @@ export default function LSystem({defaultAlphabet, defaultIterateRules, defaultDr
                 <div className="w-full flex-none md:w-1/4">
                     <div className="h-full flex-col items-center justify-start text-slate-300 border-slate-500 border-2">
                         <div className="p-5">
-                            <Alphabet />
+                            <Alphabet 
+                                alphabet={alphabet}
+                                setAlphabet={setAlphabet}
+                            />
                             <Axiom />
                             <Ruleset 
-                                defaultAlphabet={defaultAlphabet}
+                                alphabet={alphabet}
                                 defaultIterateRules={defaultIterateRules}
                                 defaultDrawRules={defaultDrawRules}
                             />
