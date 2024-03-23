@@ -1,50 +1,34 @@
 'use client';
 
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Rule from '@/app/ui/rule';
 import DrawInstruction from '../lib/drawInstruction';
 
-export default function Ruleset() {
-    const searchParams = useSearchParams();
+type RulesetProps = {
+    defaultAlphabet: string
+    defaultIterateRules: Map<string, string>
+    defaultDrawRules: Map<string, DrawInstruction>
+}
+
+export default function Ruleset({defaultAlphabet, defaultIterateRules, defaultDrawRules}: RulesetProps) {
     const pathname = usePathname();
-    const { replace } = useRouter();
     const ruleString = getRuleString();
 
-    function setRules(ruleString: string) {
-        const params = new URLSearchParams(searchParams);
-        if (!ruleString.endsWith("|")) {
-            ruleString += "|"; 
-        }
-        params.set('ruleset', ruleString);
-        replace(`${pathname}?${params.toString()}`);
-    }
-
-    // TODO: use effect to call this outside rendering
-    //setRules(ruleString);       // This ensures our rules end with "|" when this page is first rendered
-
+    //TODO
     function getRuleString(): string {
-        return searchParams.get("ruleset")?.toString() || "";
-    }
-
-    function getRuleArray(): string[] {
-        return getRuleString().split("|");
+        return "";
     }
 
     function getAlphabetArray(): string[] {
-        return Array.from(searchParams.get("alphabet")?.toString() || "")
+        return Array.from(defaultAlphabet);
     }
 
+    //TODO
     function handleChangeImage(preimage: string, image: string) {
-        let rules = getRuleArray();
-        const i = rules.findIndex((rule) => rule.startsWith(preimage))
-        if (image) {
-            rules[i] = image;
-        } else {
-            rules.splice(i, 1);
-        }
-        setRules(rules.join("|"));
+        
     }
 
+    //TODO
     function handleChangeDrawRule(preimage: string, drawRule: DrawInstruction) {
 
     }
