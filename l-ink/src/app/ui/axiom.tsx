@@ -2,15 +2,15 @@
 
 type AxiomProps = {
     axiom:string
-    setAxiom:(a:string) => void
+    onChange:(a:string) => void
 }
 
-export default function Axiom({axiom, setAxiom}: AxiomProps) {
+export default function Axiom({axiom, onChange}: AxiomProps) {
     function handleChange(term: string) {
         if (term) {
-            setAxiom(term);
+            onChange(term);
         } else {
-            setAxiom("");
+            onChange("");
         }
     }
 

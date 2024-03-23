@@ -63,18 +63,18 @@ export default function LSystem({
                         <div className="p-5">
                             <Alphabet 
                                 alphabet={alphabet}
-                                setAlphabet={setAlphabet}
+                                onChange={(a:string) => setAlphabet}
                             />
                             <Axiom 
                                 axiom={axiom}
-                                setAxiom={setAxiom}
+                                onChange={(a:string) => setAxiom}
                             />
                             <Ruleset 
                                 alphabet={alphabet}
                                 iterateRules={iterateRules}
-                                setIterateRules={setIterateRules}
+                                onChangeIterateRules={(r:Map<string, string>) => setIterateRules(r)}
                                 drawRules={drawRules}
-                                setDrawRules={setDrawRules}
+                                onChangeDrawRules={(r:Map<string, DrawInstruction>) => setDrawRules(r)}
                             />
                             <div className="mt-5 flex flex-col items-center bg-slate-200 border-slate-500 border-2 text-slate-900">
                                 <IterateButton />

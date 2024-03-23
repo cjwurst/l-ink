@@ -2,10 +2,10 @@
 
 type AlphabetProps = {
     alphabet: string
-    setAlphabet: (s:string) => void
+    onChange: (s:string) => void
 }
 
-export default function Alphabet({alphabet, setAlphabet}: AlphabetProps) {
+export default function Alphabet({alphabet, onChange}: AlphabetProps) {
     const reservedChars:string[] = ["|", ":"];
 
     function handleChange(term: string) {
@@ -15,9 +15,9 @@ export default function Alphabet({alphabet, setAlphabet}: AlphabetProps) {
                 reservedChars.indexOf(c) === -1         // remove reserved characters
         }).join("");        
         if (term) {
-            setAlphabet(alphabet);
+            onChange(alphabet);
         } else {
-            setAlphabet("");
+            onChange("");
         }
     }
 
@@ -29,7 +29,7 @@ export default function Alphabet({alphabet, setAlphabet}: AlphabetProps) {
             <input 
                 id="alphabet" 
                 className="peer block outline-2 w-full border border-slate-500 bg-slate-200 text-black" 
-                onChange={ (e) => { handleChange(e.target.value); }}
+                onChange={(e) => { handleChange(e.target.value);}}
                 value = {alphabet}
             />
         </div>
