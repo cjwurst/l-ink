@@ -22,13 +22,11 @@ export default function Alphabet({alphabet, onChange}: AlphabetProps) {
     }
 
     return (
-        <div className="relative flex flex-grow">
-            <div className="w-24">
-                <label htmlFor="alphabet"> Alphabet: </label>
-            </div>
+        <div className="flex gap-1 w-full">
+            <label htmlFor="alphabet"> Alphabet: </label>
             <input 
                 id="alphabet" 
-                className="peer block outline-2 w-full border border-slate-500 bg-slate-200 text-black" 
+                className="w-full outline-2 border border-slate-500 bg-slate-200 text-black" 
                 onChange={(e) => { handleChange(e.target.value);}}
                 value = {alphabet}
             />

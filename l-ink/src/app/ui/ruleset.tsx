@@ -39,7 +39,7 @@ export default function Ruleset({alphabet, iterateRules, onChangeIterateRules, d
     }
 
     return (
-        <div className="flex flex-col pt-5">
+        <div className="flex flex-col w-full gap-4">
             <div> Rules: </div>
             {getAlphabetArray().map((preimage) => {
                 return(

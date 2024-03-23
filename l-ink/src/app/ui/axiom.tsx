@@ -15,13 +15,11 @@ export default function Axiom({axiom, onChange}: AxiomProps) {
     }
 
     return (
-        <div className="relative flex pt-5 flex-grow">
-            <div className="w-24">
-                <label htmlFor="axiom"> Axiom: </label>
-            </div>
+        <div className="flex w-full gap-1">
+            <label htmlFor="axiom"> Axiom: </label>
             <input 
                 id="axiom" 
-                className="peer block outline-2 w-full border border-slate-500 bg-slate-200 text-black" 
+                className="w-full outline-2 border border-slate-500 bg-slate-200 text-black" 
                 onChange={ (e) => { handleChange(e.target.value); }}
                 value = {axiom}
             />

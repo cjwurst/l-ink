@@ -56,33 +56,27 @@ export default function LSystem({
     }
 
     return (
-        <div>
-            <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
-                <div className="w-full flex-none md:w-1/4">
-                    <div className="h-full flex-col items-center justify-start text-slate-300 border-slate-500 border-2">
-                        <div className="p-5">
-                            <Alphabet 
-                                alphabet={alphabet}
-                                onChange={(a:string) => setAlphabet}
-                            />
-                            <Axiom 
-                                axiom={axiom}
-                                onChange={(a:string) => setAxiom}
-                            />
-                            <Ruleset 
-                                alphabet={alphabet}
-                                iterateRules={iterateRules}
-                                onChangeIterateRules={(r:Map<string, string>) => setIterateRules(r)}
-                                drawRules={drawRules}
-                                onChangeDrawRules={(r:Map<string, DrawInstruction>) => setDrawRules(r)}
-                            />
-                            <div className="mt-5 flex flex-col items-center bg-slate-200 border-slate-500 border-2 text-slate-900">
-                                <IterateButton />
-                            </div>
-                            {lWord}
-                        </div>
-                    </div>
+        <div className="flex-row">
+            <div className="flex gap-8 p-8 h-screen w-1/4 flex-col items-center justify-start text-slate-300 border-slate-500 border-2">
+                <Alphabet 
+                    alphabet={alphabet}
+                    onChange={(a:string) => setAlphabet(a)}
+                />
+                <Axiom 
+                    axiom={axiom}
+                    onChange={(a:string) => setAxiom(a)}
+                />
+                <Ruleset 
+                    alphabet={alphabet}
+                    iterateRules={iterateRules}
+                    onChangeIterateRules={(r:Map<string, string>) => setIterateRules(r)}
+                    drawRules={drawRules}
+                    onChangeDrawRules={(r:Map<string, DrawInstruction>) => setDrawRules(r)}
+                />
+                <div className="w-full items-center bg-slate-200 border-slate-500 border-2 text-slate-900">
+                    <IterateButton />
                 </div>
+                {lWord}
             </div>
             <LSystemDisplay 
                 origin = {[0, 0, 0]}

@@ -12,12 +12,12 @@ type RuleProps = {
 
 export default function Rule({preimage, image, drawRule, onChangeImage, onChangeDrawRule}: RuleProps) {
     return (
-        <div className="flex flex-row mt-4">
-            <div className="w-8 flex-grow">
+        <div className="flex gap-1">
+            <div className="text-nowrap">
                 {preimage} ↦
             </div>
             <input 
-                className = "flex-grow mr-4 border border-slate-500 bg-slate-200 text-black"
+                className = "flex-1 border border-slate-500 bg-slate-200 text-black"
                 onChange={(e) => onChangeImage(e.target.value)}
                 value={image}
             />
