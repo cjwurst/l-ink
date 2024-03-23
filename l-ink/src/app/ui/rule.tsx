@@ -17,7 +17,7 @@ export default function Rule({preimage, image, drawRule, onChangeImage, onChange
                 {preimage} ↦
             </div>
             <input 
-                className = "flex-1 border border-slate-500 bg-slate-200 text-black"
+                className = "border border-slate-500 bg-slate-200 text-black"
                 onChange={(e) => onChangeImage(e.target.value)}
                 value={image}
             />

@@ -15,11 +15,11 @@ export default function Axiom({axiom, onChange}: AxiomProps) {
     }
 
     return (
-        <div className="flex w-full gap-1">
+        <div className="flex gap-1">
             <label htmlFor="axiom"> Axiom: </label>
             <input 
                 id="axiom" 
-                className="w-full outline-2 border border-slate-500 bg-slate-200 text-black" 
+                className="outline-2 border border-slate-500 bg-slate-200 text-black" 
                 onChange={ (e) => { handleChange(e.target.value); }}
                 value = {axiom}
             />

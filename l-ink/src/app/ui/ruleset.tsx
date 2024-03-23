@@ -16,16 +16,6 @@ export default function Ruleset({alphabet, iterateRules, onChangeIterateRules, d
         return Array.from(alphabet);
     }
 
-    //TODO
-    function getIterateRule(preimage: string): string {
-        return "";
-    }
-
-    //TODO
-    function getDrawRule(preimage: string): DrawInstruction {
-        return DrawInstruction.FORWARD;
-    }
-
     function handleChangeImage(preimage: string, image: string) {
         let result = new Map(iterateRules);
         result.set(preimage, image);
@@ -39,15 +29,15 @@ export default function Ruleset({alphabet, iterateRules, onChangeIterateRules, d
     }
 
     return (
-        <div className="flex flex-col w-full gap-4">
+        <div className="flex flex-col gap-4">
             <div> Rules: </div>
             {getAlphabetArray().map((preimage) => {
                 return(
                     <Rule
                         key={preimage}
                         preimage={preimage}
-                        image={getIterateRule(preimage)}
-                        drawRule={getDrawRule(preimage)}
+                        image={iterateRules.get(preimage) || ""}
+                        drawRule={drawRules.get(preimage) || DrawInstruction.FORWARD}
                         onChangeImage={(image: string) => handleChangeImage(preimage, image)}
                         onChangeDrawRule={(drawRule: DrawInstruction) => handleChangeDrawRule(preimage, drawRule)}
                     />
