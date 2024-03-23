@@ -71,8 +71,10 @@ export default function LSystem({
                             />
                             <Ruleset 
                                 alphabet={alphabet}
-                                defaultIterateRules={defaultIterateRules}
-                                defaultDrawRules={defaultDrawRules}
+                                iterateRules={iterateRules}
+                                setIterateRules={setIterateRules}
+                                drawRules={drawRules}
+                                setDrawRules={setDrawRules}
                             />
                             <div className="mt-5 flex flex-col items-center bg-slate-200 border-slate-500 border-2 text-slate-900">
                                 <IterateButton />

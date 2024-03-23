@@ -4,13 +4,13 @@ import DrawInstruction from '@/app/lib/drawInstruction'
 
 type RuleProps = {
     preimage: string
-    defaultImage: string
-    defaultDrawRule: DrawInstruction
-    handleChangeImage: (image: string) => void
-    handleChangeDrawRule: (drawRule: DrawInstruction) => void
+    image: string
+    drawRule: DrawInstruction
+    onChangeImage: (image: string) => void
+    onChangeDrawRule: (drawRule: DrawInstruction) => void
 }
 
-export default function Rule({preimage, defaultImage, defaultDrawRule, handleChangeImage, handleChangeDrawRule}: RuleProps) {
+export default function Rule({preimage, image, drawRule, onChangeImage, onChangeDrawRule}: RuleProps) {
     return (
         <div className="flex flex-row mt-4">
             <div className="w-8 flex-grow">
@@ -18,13 +18,13 @@ export default function Rule({preimage, defaultImage, defaultDrawRule, handleCha
             </div>
             <input 
                 className = "flex-grow mr-4 border border-slate-500 bg-slate-200 text-black"
-                onChange={(e) => handleChangeImage(e.target.value)}
-                defaultValue={defaultImage}
+                onChange={(e) => onChangeImage(e.target.value)}
+                value={image}
             />
             <select 
                 className = "text-black"
-                onChange={(e)=> handleChangeDrawRule(DrawInstruction[e.target.value as keyof typeof DrawInstruction])}
-                defaultValue={defaultDrawRule}
+                onChange={(e)=> onChangeDrawRule(DrawInstruction[e.target.value as keyof typeof DrawInstruction])}
+                value={drawRule}
             >
                 {Object.keys(DrawInstruction).map((k) => {
                     const instruction = DrawInstruction[k as keyof typeof DrawInstruction];
