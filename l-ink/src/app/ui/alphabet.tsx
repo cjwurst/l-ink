@@ -27,7 +27,7 @@ export default function Alphabet() {
     }
 
     return (
-        <div className="relative flex pt-5 flex-grow">
+        <div className="relative flex flex-grow">
             <div className="w-24">
                 <label htmlFor="alphabet"> Alphabet: </label>
             </div>
