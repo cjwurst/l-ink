@@ -23,7 +23,7 @@ export default function Rule({preimage, image, drawRule, onChangeImage, onChange
             />
             <select 
                 className = "text-black"
-                onChange={(e)=> onChangeDrawRule(DrawInstruction[e.target.value as keyof typeof DrawInstruction])}
+                onChange={(e)=> onChangeDrawRule(e.target.value as DrawInstruction)}
                 value={drawRule}
             >
                 {Object.keys(DrawInstruction).map((k) => {
