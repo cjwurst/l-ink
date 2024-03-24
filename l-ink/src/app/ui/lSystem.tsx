@@ -2,12 +2,12 @@
 
 import LSystemDisplay from "@/app/ui/lSystemDisplay";
 import DrawInstruction from "@/app/lib/drawInstruction";
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useState } from "react";
 import Alphabet from '@/app/ui/alphabet';
 import Axiom from '@/app/ui/axiom';
 import Ruleset from '@/app/ui/ruleset';
 import IterateButton from '@/app/ui/renderButton';
+import { encodeDrawInstruction } from "@/app/lib/drawInstruction";
 
 type LSystemProps = {
     defaultAxiom: string
@@ -28,23 +28,10 @@ export default function LSystem({
     const [iterateRules, setIterateRules] = useState(new Map());
     const [lWord, setLWord] = useState("");
 
-    //TODO: generate sandbox URL
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const { replace } = useRouter();
-    const ruleString = getRuleString();
-
-    function setRules(ruleString: string) {
-        const params = new URLSearchParams(searchParams);
-        if (!ruleString.endsWith("|")) {
-            ruleString += "|"; 
-        }
-        params.set('ruleset', ruleString);
-        replace(`${pathname}?${params.toString()}`);
-    }
-
-    function getRuleString(): string {
-        return searchParams.get("ruleset")?.toString() || "";
+    /*function getIterateRulesString(): string {
+        let result = "";
+        for(let i = 0; i < )
+        return result;
     }
 
     function getRuleArray(): string[] {
@@ -53,6 +40,35 @@ export default function LSystem({
 
     function getAlphabetArray(): string[] {
         return Array.from(searchParams.get("alphabet")?.toString() || "")
+    }*/
+
+    function handleReset() {
+        setAxiom(defaultAxiom);
+        setAlphabet(defaultAlphabet);
+        setDrawRules(defaultDrawRules);
+        setIterateRules(defaultIterateRules);
+        setLWord("");
+    }
+
+    function handleCopyLink() {
+        const params = new URLSearchParams();
+
+        params.set("alphabet", alphabet);
+
+        params.set("axiom", axiom);
+        
+        const iterateParam = Array.from(iterateRules.entries()).map((pair) => pair.join(":")).join("|");
+        params.set("iterate", iterateParam);
+
+        const drawParam = Array.from(drawRules.entries()).map((pair) => {
+            pair[1] = encodeDrawInstruction(pair[1]);
+            return pair.join(":");
+        }).join("|");
+        params.set("draw", drawParam);
+
+        let href = window.location.href;
+        href = href.split("?")[0];
+        navigator.clipboard.writeText(`${href}?${params}`);
     }
 
     return (
@@ -76,6 +92,8 @@ export default function LSystem({
                 <div className="w-full items-center bg-slate-200 border-slate-500 border-2 text-slate-900">
                     <IterateButton />
                 </div>
+                <button onClick={handleReset}>Reset</button>
+                <button onClick={handleCopyLink}>Copy Link</button>
                 {lWord}
             </div>
             <LSystemDisplay 
