@@ -3,6 +3,7 @@
 import LSystem from "@/app/ui/lSystem";
 import { useSearchParams } from "next/navigation";
 import DrawInstruction from "../lib/drawInstruction";
+import URLCharacter from "../lib/urlCharacter";
 
 export default function Page() {
     const searchParams = useSearchParams();
@@ -17,9 +18,9 @@ export default function Page() {
 
     function getIterateRules(): Map<string, string> {
         let result: Map<string, string> = new Map();
-        const rules = searchParams.get("iterate")?.toString() || "";
+        const rules = (searchParams.get("iterate")?.toString() || "").split(URLCharacter.LIST_BREAK);
         for (let i = 0; i < rules.length; i++) {
-            const rule = rules[i].split(":");
+            const rule = rules[i].split(URLCharacter.TUPLE_BREAK);
             result.set(rule[0], rule[1]);
         }
         return result;
@@ -27,9 +28,9 @@ export default function Page() {
 
     function getDrawRules(): Map<string, DrawInstruction> {
         let result: Map<string, DrawInstruction> = new Map();
-        const rules = searchParams.get("draw")?.toString() || "";
+        const rules = (searchParams.get("draw")?.toString() || "").split(URLCharacter.LIST_BREAK);
         for (let i = 0; i < rules.length; i++) {
-            const rule = rules[i].split(":");
+            const rule = rules[i].split(URLCharacter.TUPLE_BREAK);
             result.set(rule[0], rule[1] as DrawInstruction);
         }
         return result;

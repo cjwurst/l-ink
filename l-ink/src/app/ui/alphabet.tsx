@@ -1,12 +1,14 @@
 'use client';
 
+import URLCharacter from "@/app/lib/urlCharacter";
+
 type AlphabetProps = {
     alphabet: string
     onChange: (s:string) => void
 }
 
 export default function Alphabet({alphabet, onChange}: AlphabetProps) {
-    const reservedChars:string[] = ["|", ":"];
+    const reservedChars:string[] = Object.values(URLCharacter);
 
     function handleChange(term: string) {
         const chars = Array.from(term);

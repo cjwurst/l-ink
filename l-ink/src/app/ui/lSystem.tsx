@@ -8,6 +8,7 @@ import Axiom from '@/app/ui/axiom';
 import Ruleset from '@/app/ui/ruleset';
 import IterateButton from '@/app/ui/renderButton';
 import { encodeDrawInstruction } from "@/app/lib/drawInstruction";
+import URLCharacter from "@/app/lib/urlCharacter";
 
 type LSystemProps = {
     defaultAxiom: string
@@ -24,23 +25,9 @@ export default function LSystem({
 }: LSystemProps) {
     const [axiom, setAxiom] = useState(defaultAxiom);
     const [alphabet, setAlphabet] = useState(defaultAlphabet);
-    const [drawRules, setDrawRules] = useState(new Map());
-    const [iterateRules, setIterateRules] = useState(new Map());
+    const [iterateRules, setIterateRules] = useState(defaultIterateRules);
+    const [drawRules, setDrawRules] = useState(defaultDrawRules);
     const [lWord, setLWord] = useState("");
-
-    /*function getIterateRulesString(): string {
-        let result = "";
-        for(let i = 0; i < )
-        return result;
-    }
-
-    function getRuleArray(): string[] {
-        return getRuleString().split("|");
-    }
-
-    function getAlphabetArray(): string[] {
-        return Array.from(searchParams.get("alphabet")?.toString() || "")
-    }*/
 
     function handleReset() {
         setAxiom(defaultAxiom);
@@ -57,18 +44,19 @@ export default function LSystem({
 
         params.set("axiom", axiom);
         
-        const iterateParam = Array.from(iterateRules.entries()).map((pair) => pair.join(":")).join("|");
+        const iterateParam = Array.from(iterateRules.entries()).map((pair) => 
+            pair.join(URLCharacter.TUPLE_BREAK)).join(URLCharacter.LIST_BREAK);
         params.set("iterate", iterateParam);
 
         const drawParam = Array.from(drawRules.entries()).map((pair) => {
-            pair[1] = encodeDrawInstruction(pair[1]);
-            return pair.join(":");
-        }).join("|");
+            pair[1] = encodeDrawInstruction(pair[1]) as DrawInstruction;
+            return pair.join(URLCharacter.TUPLE_BREAK);
+        }).join(URLCharacter.LIST_BREAK);
         params.set("draw", drawParam);
 
         let href = window.location.href;
         href = href.split("?")[0];
-        navigator.clipboard.writeText(`${href}?${params}`);
+        navigator.clipboard.writeText(`${href}?${params.toString()}`);
     }
 
     return (
