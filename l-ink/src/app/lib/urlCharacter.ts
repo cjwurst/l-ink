@@ -1,6 +1,6 @@
 enum URLCharacter {
-    TUPLE_BREAK = "_",
-    LIST_BREAK = "-"
+    TUPLE_BREAK = ".",
+    LIST_BREAK = "*"
 }
 
 export default URLCharacter;
