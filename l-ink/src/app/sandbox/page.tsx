@@ -34,7 +34,6 @@ export default function Page() {
             const rule = rules[i].split(URLCharacter.TUPLE_BREAK);
             result.set(rule[0], decodeDrawInstruction(rule[1]) ?? DrawInstruction.FORWARD);
         }
-        console.log(result);
         return result;
     }
     
