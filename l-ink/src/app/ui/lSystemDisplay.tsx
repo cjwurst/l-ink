@@ -14,35 +14,36 @@ export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemDisp
     let points:[number, number, number][] = [origin];
     let angle:number = 0;
     let position = origin;
+    const drawDistance = 0.2;
     for (let i = 0; i < lWord.length; i++) {
-        switch (drawRules.get(lWord[i])) {
+        switch (drawRules.get(lWord[i]) || DrawInstruction.FORWARD) {
             case DrawInstruction.FORWARD:
-                console.log('forward');
                 position = [
-                    position[0] + Math.cos(angle), 
-                    position[1] + Math.sin(angle), 
+                    position[0] + drawDistance*Math.cos(angle), 
+                    position[1] + drawDistance*Math.sin(angle), 
                     0
                 ];
                 points.push(position);
                 break;
             case DrawInstruction.TURN_LEFT:
-                console.log('left');
                 angle += Math.PI/2;
                 break;
             case DrawInstruction.TURN_RIGHT:
-                console.log('right');
                 angle -= Math.PI/2;
                 break;
+            default:
+                throw new Error(`Draw rule not found for ${lWord[i]}`);
         }
     }
     console.log(`rendering word: ${lWord} at points ${points}`);
 
     return (
         <Canvas>
-            <ambientLight />
+            {/* <ambientLight /> */}
             <Line 
-                points = {points}
-                color = "white"
+                points={points}
+                color="white"
+                lineWidth={2}
             />
         </Canvas>
     );
