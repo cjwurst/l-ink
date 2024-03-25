@@ -1,12 +1,13 @@
 "use client"
 
+import { iterateSystem } from "@/app/lib/lSystemHelpers";
 import LSystemDisplay from "@/app/ui/lSystemDisplay";
 import DrawInstruction from "@/app/lib/drawInstruction";
 import { useState } from "react";
 import Alphabet from '@/app/ui/alphabet';
 import Axiom from '@/app/ui/axiom';
 import Ruleset from '@/app/ui/ruleset';
-import IterateButton from '@/app/ui/renderButton';
+import Button from '@/app/ui/button';
 import { encodeDrawInstruction } from "@/app/lib/drawInstruction";
 import URLCharacter from "@/app/lib/urlCharacter";
 
@@ -27,14 +28,29 @@ export default function LSystem({
     const [alphabet, setAlphabet] = useState(defaultAlphabet);
     const [iterateRules, setIterateRules] = useState(defaultIterateRules);
     const [drawRules, setDrawRules] = useState(defaultDrawRules);
-    const [lWord, setLWord] = useState("");
+    const [lWord, setLWord] = useState(defaultAxiom);
+
+    function handleAxiom(term?: string) {
+        term = term || "";
+        setAxiom(term);
+        setLWord(term);
+    }
+
+    function handleAlphabet(term?: string) {
+        term = term || "";
+        setAlphabet(term);
+    }
+
+    function handleIterate() {
+        setLWord(iterateSystem(lWord, iterateRules));
+    }
 
     function handleReset() {
         setAxiom(defaultAxiom);
         setAlphabet(defaultAlphabet);
         setDrawRules(defaultDrawRules);
         setIterateRules(defaultIterateRules);
-        setLWord("");
+        setLWord(defaultAxiom);
     }
 
     function handleCopyLink() {
@@ -61,14 +77,14 @@ export default function LSystem({
 
     return (
         <div className="flex-row">
-            <div className="flex gap-8 p-8 h-screen w-1/4 flex-col items-center justify-start text-slate-300 border-slate-500 border-2">
+            <div className="flex gap-6 p-8 h-screen w-1/4 flex-col items-center justify-start text-slate-300 border-slate-500 border-2">
                 <Alphabet 
                     alphabet={alphabet}
-                    onChange={(a:string) => setAlphabet(a)}
+                    onChange={handleAlphabet}
                 />
                 <Axiom 
                     axiom={axiom}
-                    onChange={(a:string) => setAxiom(a)}
+                    onChange={handleAxiom}
                 />
                 <Ruleset 
                     alphabet={alphabet}
@@ -77,11 +93,9 @@ export default function LSystem({
                     drawRules={drawRules}
                     onChangeDrawRules={(r:Map<string, DrawInstruction>) => setDrawRules(r)}
                 />
-                <div className="w-full items-center bg-slate-200 border-slate-500 border-2 text-slate-900">
-                    <IterateButton />
-                </div>
-                <button onClick={handleReset}>Reset</button>
-                <button onClick={handleCopyLink}>Copy Link</button>
+                <Button onClick={handleIterate}>Iterate</Button>
+                <Button onClick={handleReset}>Reset</Button>
+                <Button onClick={handleCopyLink}>Copy Link</Button>
                 {lWord}
             </div>
             <LSystemDisplay 
