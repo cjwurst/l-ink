@@ -76,7 +76,7 @@ export default function LSystem({
     }
 
     return (
-        <div className="flex-row">
+        <div className="flex flex-row">
             <div className="flex gap-6 p-8 h-screen w-1/4 flex-col items-center justify-start text-slate-300 border-slate-500 border-2">
                 <Alphabet 
                     alphabet={alphabet}
@@ -98,11 +98,13 @@ export default function LSystem({
                 <Button onClick={handleCopyLink}>Copy Link</Button>
                 {lWord}
             </div>
-            <LSystemDisplay 
-                origin = {[0, 0, 0]}
-                lWord = {lWord} 
-                drawRules = {drawRules}
-            />
+            <div className="w-full">
+                <LSystemDisplay 
+                    origin = {[0, 0, 0]}
+                    lWord = {lWord} 
+                    drawRules = {drawRules}
+                />
+            </div>
         </div> 
     );
 }
