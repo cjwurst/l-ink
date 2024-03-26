@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas } from '@react-three/fiber'
+import { useThree } from '@react-three/fiber'
 import DrawInstruction from '@/app/lib/drawInstruction';
 import { Line } from '@react-three/drei';
 
@@ -11,6 +11,8 @@ type LSystemDisplayProps = {
 }
 
 export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemDisplayProps) {
+    const cameraControls = useThree((state) => state.controls);
+
     let points:[number, number, number][] = [origin];
     let angle:number = 0;
     let position = origin;
@@ -38,13 +40,10 @@ export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemDisp
     console.log(`rendering word: ${lWord} at points ${points}`);
 
     return (
-        <Canvas>
-            {/* <ambientLight /> */}
-            <Line 
-                points={points}
-                color="white"
-                lineWidth={2}
-            />
-        </Canvas>
+        <Line 
+            points={points}
+            color="white"
+            lineWidth={2}
+        />
     );
 }

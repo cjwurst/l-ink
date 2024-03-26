@@ -1,7 +1,6 @@
 "use client"
 
 import { iterateSystem } from "@/app/lib/lSystemHelpers";
-import LSystemDisplay from "@/app/ui/lSystemDisplay";
 import DrawInstruction from "@/app/lib/drawInstruction";
 import { useState } from "react";
 import Alphabet from '@/app/ui/alphabet';
@@ -10,6 +9,7 @@ import Ruleset from '@/app/ui/ruleset';
 import Button from '@/app/ui/button';
 import { encodeDrawInstruction } from "@/app/lib/drawInstruction";
 import URLCharacter from "@/app/lib/urlCharacter";
+import LSystemCanvas from "./lSystemCanvas";
 
 type LSystemProps = {
     defaultAxiom: string
@@ -76,8 +76,8 @@ export default function LSystem({
     }
 
     return (
-        <div className="flex flex-row">
-            <div className="flex gap-6 p-8 h-screen w-1/4 flex-col items-center justify-start text-slate-300 border-slate-500 border-2">
+        <div className="flex flex-row h-full">
+            <div className="w-1/4 grid gap-6 mb-6 items-start">
                 <Alphabet 
                     alphabet={alphabet}
                     onChange={handleAlphabet}
@@ -96,15 +96,11 @@ export default function LSystem({
                 <Button onClick={handleIterate}>Iterate</Button>
                 <Button onClick={handleReset}>Reset</Button>
                 <Button onClick={handleCopyLink}>Copy Link</Button>
-                {lWord}
             </div>
-            <div className="w-full">
-                <LSystemDisplay 
-                    origin = {[0, 0, 0]}
-                    lWord = {lWord} 
-                    drawRules = {drawRules}
-                />
-            </div>
+            <LSystemCanvas 
+                lWord = {lWord} 
+                drawRules = {drawRules}
+            />
         </div> 
     );
 }
