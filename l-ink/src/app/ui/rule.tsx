@@ -12,7 +12,7 @@ type RuleProps = {
 
 export default function Rule({preimage, image, drawRule, onChangeImage, onChangeDrawRule}: RuleProps) {
     return (
-        <div className="flex gap-1">
+        <div className="grid gap-1">
             <div className="text-nowrap">
                 {preimage} ↦
             </div>

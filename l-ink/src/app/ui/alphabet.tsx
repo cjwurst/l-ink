@@ -1,6 +1,7 @@
 'use client';
 
 import URLCharacter from "@/app/lib/urlCharacter";
+import ConfigInput from "./configInput";
 
 type AlphabetProps = {
     alphabet: string
@@ -23,15 +24,9 @@ export default function Alphabet({alphabet, onChange}: AlphabetProps) {
         }
     }
 
-    return (
-        <div className="flex gap-1">
-            <label htmlFor="alphabet"> Alphabet: </label>
-            <input 
-                id="alphabet" 
-                className="outline-2 border border-slate-500 bg-slate-200 text-black" 
-                onChange={(e) => { handleChange(e.target.value);}}
-                value = {alphabet}
-            />
-        </div>
-    );
+    return <ConfigInput 
+        onChange={handleChange}
+        name="Alphabet"
+        value={alphabet}
+    />;
 }
