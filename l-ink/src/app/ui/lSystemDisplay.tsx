@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from 'react';
 import { useThree } from '@react-three/fiber'
 import DrawInstruction from '@/app/lib/drawInstruction';
 import { Line } from '@react-three/drei';
+import { useMediaQuery } from 'react-responsive';
 
 type LSystemDisplayProps = {
     origin: [number, number, number]
@@ -12,6 +14,14 @@ type LSystemDisplayProps = {
 
 export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemDisplayProps) {
     const cameraControls = useThree((state) => state.controls);
+    const [isDark, setIsDark] = useState(true);
+    useMediaQuery(
+        {
+            query: "(prefers-color-scheme: dark)",
+        },
+        undefined,
+        (isSystemDark) => setIsDark(isSystemDark)
+    );
 
     let points:[number, number, number][] = [origin];
     let angle:number = 0;
@@ -42,7 +52,7 @@ export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemDisp
     return (
         <Line 
             points={points}
-            color="white"
+            color={isDark? "white" : "black"}
             lineWidth={2}
         />
     );
