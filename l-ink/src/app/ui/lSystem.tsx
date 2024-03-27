@@ -76,8 +76,9 @@ export default function LSystem({
     }
 
     return (
-        <div className="flex flex-row h-full">
-            <div className="w-1/4 grid gap-6 mb-6 items-start">
+        <div className="flex h-full">
+            <div className="w-1/4 h-full flex flex-col gap-4 overflow-scroll border border-blue-500 border-2">
+                <div className="overflow-scroll">{lWord}</div>
                 <Alphabet 
                     alphabet={alphabet}
                     onChange={handleAlphabet}
@@ -97,10 +98,12 @@ export default function LSystem({
                 <Button onClick={handleReset}>Reset</Button>
                 <Button onClick={handleCopyLink}>Copy Link</Button>
             </div>
-            <LSystemCanvas 
-                lWord = {lWord} 
-                drawRules = {drawRules}
-            />
+            <div className="w-3/4 h-full">
+                <LSystemCanvas 
+                    lWord = {lWord} 
+                    drawRules = {drawRules}
+                />
+            </div>
         </div> 
     );
 }

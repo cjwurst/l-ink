@@ -13,16 +13,16 @@ type RuleProps = {
 export default function Rule({preimage, image, drawRule, onChangeImage, onChangeDrawRule}: RuleProps) {
     return (
         <div className="grid gap-1">
-            <div className="text-nowrap">
+            <div className="text-gray-900 text-nowrap dark:text-white dark:border-gray">
                 {preimage} ↦
             </div>
             <input 
-                className = "border border-slate-500 bg-slate-200 text-black"
+                className = "text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 onChange={(e) => onChangeImage(e.target.value)}
                 value={image}
             />
             <select 
-                className = "text-black"
+                className = "text-black dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 onChange={(e)=> onChangeDrawRule(e.target.value as DrawInstruction)}
                 value={drawRule}
             >

@@ -38,7 +38,7 @@ export default function Page() {
     }
     
     return (
-        <div className="h-screen bg-slate-800">
+        <div className="h-screen">
             <LSystem 
                 defaultAxiom={getAxiom()}
                 defaultAlphabet={getAlphabet()}

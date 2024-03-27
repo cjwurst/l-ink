@@ -12,7 +12,7 @@ type LSystemCanvasProps = {
 
 export default function LSystemCanvas({lWord, drawRules}: LSystemCanvasProps) {
     return (
-        <div className="w-full">
+        <div className="w-full h-full border border-2 border-red-500">
             <Canvas>
                 <OrbitControls enableRotate={false}/>
                 <LSystemDisplay 
