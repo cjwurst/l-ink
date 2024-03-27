@@ -47,7 +47,6 @@ export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemDisp
                 throw new Error(`Draw rule not found for ${lWord[i]}`);
         }
     }
-    console.log(`rendering word: ${lWord} at points ${points}`);
 
     return (
         <Line 

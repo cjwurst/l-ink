@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber"
 import { Bounds, CameraControls, OrbitControls, OrthographicCamera } from "@react-three/drei";
 import DrawInstruction from '@/app/lib/drawInstruction';
 import LSystemDisplay from "./lSystemDisplay";
+import { MOUSE } from "three";
 
 type LSystemCanvasProps = {
     lWord: string
@@ -14,7 +15,10 @@ export default function LSystemCanvas({lWord, drawRules}: LSystemCanvasProps) {
     return (
         <div className="w-full h-full border border-2 border-red-500">
             <Canvas>
-                <OrbitControls enableRotate={false}/>
+                <OrbitControls 
+                    mouseButtons={{LEFT: MOUSE.PAN}}
+                    enableRotate={false}
+                />
                 <LSystemDisplay 
                     origin = {[0, 0, 0]}
                     lWord = {lWord} 
