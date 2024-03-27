@@ -13,7 +13,7 @@ type LSystemCanvasProps = {
 
 export default function LSystemCanvas({lWord, drawRules}: LSystemCanvasProps) {
     return (
-        <div className="w-full h-full border border-2 border-red-500">
+        <div className="w-full h-full">
             <Canvas>
                 <OrbitControls 
                     mouseButtons={{LEFT: MOUSE.PAN}}

@@ -77,8 +77,8 @@ export default function LSystem({
 
     return (
         <div className="flex h-full">
-            <div className="w-1/4 h-full pr-4 pl-4 flex flex-col gap-4 overflow-scroll border border-blue-500 border-2">
-                <div className="overflow-scroll text-sm">{lWord}</div>
+            <div className="w-1/4 h-full pr-4 pl-4 flex flex-col gap-4 overflow-scroll">
+                <div className="overflow-scroll text-sm grow-0">{lWord}</div>
                 <ConfigButton onClick={handleIterate}>Iterate</ConfigButton>
                 <ConfigButton onClick={handleReset}>Reset</ConfigButton>
                 <ConfigButton onClick={handleCopyLink}>Copy Link</ConfigButton>
