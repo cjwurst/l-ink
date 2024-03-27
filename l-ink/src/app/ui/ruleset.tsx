@@ -33,8 +33,8 @@ export default function Ruleset({alphabet, iterateRules, onChangeIterateRules, d
         <div className="flex flex-col gap-4">
             <div className="block text-sm font-medium text-gray-900 dark:text-white"> Rules: </div>
             {getAlphabetArray().map((preimage) => (
-                <div className="grid grid-cols-[repeat(3,auto)] gap-4">
-                    <div className="block text-sm font-medium text-gray-900 text-nowrap dark:text-white dark:border-gray">
+                <div className="grid grid-cols-[repeat(3,auto)] gap-4 w-full pl-4 pr-4">
+                    <div className="flex items-center text-sm font-medium text-gray-900 text-nowrap dark:text-white dark:border-gray">
                         {preimage} ↦
                     </div>
                     <input 

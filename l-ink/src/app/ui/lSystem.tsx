@@ -6,7 +6,7 @@ import { useState } from "react";
 import Alphabet from '@/app/ui/alphabet';
 import Axiom from '@/app/ui/axiom';
 import Ruleset from '@/app/ui/ruleset';
-import Button from '@/app/ui/button';
+import ConfigButton from '@/app/ui/configButton';
 import { encodeDrawInstruction } from "@/app/lib/drawInstruction";
 import URLCharacter from "@/app/lib/urlCharacter";
 import LSystemCanvas from "./lSystemCanvas";
@@ -77,8 +77,11 @@ export default function LSystem({
 
     return (
         <div className="flex h-full">
-            <div className="w-1/4 h-full flex flex-col gap-4 overflow-scroll border border-blue-500 border-2">
-                <div className="overflow-scroll">{lWord}</div>
+            <div className="w-1/4 h-full pr-4 pl-4 flex flex-col gap-4 overflow-scroll border border-blue-500 border-2">
+                <div className="overflow-scroll text-sm">{lWord}</div>
+                <ConfigButton onClick={handleIterate}>Iterate</ConfigButton>
+                <ConfigButton onClick={handleReset}>Reset</ConfigButton>
+                <ConfigButton onClick={handleCopyLink}>Copy Link</ConfigButton>
                 <Alphabet 
                     alphabet={alphabet}
                     onChange={handleAlphabet}
@@ -94,9 +97,6 @@ export default function LSystem({
                     drawRules={drawRules}
                     onChangeDrawRules={(r:Map<string, DrawInstruction>) => setDrawRules(r)}
                 />
-                <Button onClick={handleIterate}>Iterate</Button>
-                <Button onClick={handleReset}>Reset</Button>
-                <Button onClick={handleCopyLink}>Copy Link</Button>
             </div>
             <div className="w-3/4 h-full">
                 <LSystemCanvas 
