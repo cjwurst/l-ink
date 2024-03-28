@@ -2,9 +2,9 @@
 
 import LSystem from "@/app/ui/lSystem";
 import { useSearchParams } from "next/navigation";
-import DrawInstruction from "../lib/drawInstruction";
-import { decodeDrawInstruction } from "../lib/drawInstruction";
-import URLCharacter from "../lib/urlCharacter";
+import DrawInstruction from "../../lib/drawInstruction";
+import { decodeDrawInstruction } from "../../lib/drawInstruction";
+import URLCharacter from "../../lib/urlCharacter";
 
 export default function Page() {
     const searchParams = useSearchParams();
