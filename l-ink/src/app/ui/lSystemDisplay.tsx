@@ -26,6 +26,8 @@ export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemDisp
     let points:[number, number, number][] = [origin];
     let angle:number = 0;
     let position = origin;
+    const state: [[number, number, number], number][] = [[position, angle]]
+    const lines: [number, number, number][][] = [points]
     const drawDistance = 0.2;
     for (let i = 0; i < lWord.length; i++) {
         switch (drawRules.get(lWord[i]) || DrawInstruction.FORWARD) {
@@ -38,21 +40,34 @@ export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemDisp
                 points.push(position);
                 break;
             case DrawInstruction.TURN_LEFT:
-                angle += Math.PI/2;
+                angle += Math.PI/4;
                 break;
             case DrawInstruction.TURN_RIGHT:
-                angle -= Math.PI/2;
+                angle -= Math.PI/4;
+                break;
+            case DrawInstruction.SAVE:
+                state.push([position, angle])
+                break;
+            case DrawInstruction.LOAD:
+                const oldState = state.pop() || [origin, 0];
+                [position, angle] = oldState;
+                points = [position];
+                lines.push(points);
                 break;
             default:
                 throw new Error(`Draw rule not found for ${lWord[i]}`);
         }
     }
 
-    return (
-        <Line 
-            points={points}
-            color={isDark? "white" : "black"}
-            lineWidth={2}
-        />
-    );
+    return (<>
+        {lines.map((line, i) => 
+            <Line 
+                key={`line${i}`}
+                points={line}
+                color={isDark? "white" : "black"}
+                lineWidth={2}
+            />
+        )}
+    </>);
+        
 }
