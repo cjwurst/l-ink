@@ -7,12 +7,22 @@ import { Line } from '@react-three/drei';
 import { useMediaQuery } from 'react-responsive';
 
 type LSystemDisplayProps = {
+    initialAngle: number
+    angleIncrement: number
     origin: [number, number, number]
+    drawDistance: number
     lWord: string
     drawRules: Map<string, DrawInstruction>
 }
 
-export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemDisplayProps) {
+export default function LSystemDisplay({ 
+    initialAngle, 
+    angleIncrement, 
+    origin, 
+    drawDistance, 
+    lWord, 
+    drawRules 
+}: LSystemDisplayProps) {
     const cameraControls = useThree((state) => state.controls);
     const [isDark, setIsDark] = useState(true);
     useMediaQuery(
@@ -23,27 +33,27 @@ export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemDisp
         (isSystemDark) => setIsDark(isSystemDark)
     );
 
-    let points:[number, number, number][] = [origin];
-    let angle:number = 0;
+    let angle:number = initialAngle;
     let position = origin;
+    let points:[number, number, number][] = [origin];
     const state: [[number, number, number], number][] = [[position, angle]]
     const lines: [number, number, number][][] = [points]
-    const drawDistance = 0.2;
     for (let i = 0; i < lWord.length; i++) {
         switch (drawRules.get(lWord[i]) || DrawInstruction.FORWARD) {
             case DrawInstruction.FORWARD:
+                const radians = 2*Math.PI*angle/360.0;
                 position = [
-                    position[0] + drawDistance*Math.cos(angle), 
-                    position[1] + drawDistance*Math.sin(angle), 
+                    position[0] + drawDistance*0.1*Math.cos(radians), 
+                    position[1] + drawDistance*0.1*Math.sin(radians), 
                     0
                 ];
                 points.push(position);
                 break;
             case DrawInstruction.TURN_LEFT:
-                angle += Math.PI/4;
+                angle += angleIncrement;
                 break;
             case DrawInstruction.TURN_RIGHT:
-                angle -= Math.PI/4;
+                angle -= angleIncrement;
                 break;
             case DrawInstruction.SAVE:
                 state.push([position, angle])
@@ -55,7 +65,7 @@ export default function LSystemDisplay({ origin, lWord, drawRules }: LSystemDisp
                 lines.push(points);
                 break;
             default:
-                throw new Error(`Draw rule not found for ${lWord[i]}`);
+                throw new Error(`Draw rule not found for ${lWord[i]}.`);
         }
     }
 

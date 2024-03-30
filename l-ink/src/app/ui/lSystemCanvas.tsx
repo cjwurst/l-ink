@@ -9,9 +9,20 @@ import { MOUSE } from "three";
 type LSystemCanvasProps = {
     lWord: string
     drawRules: Map<string, DrawInstruction>
+    initialAngle: number
+    angleIncrement: number
+    origin: [number, number, number]
+    drawDistance: number
 }
 
-export default function LSystemCanvas({lWord, drawRules}: LSystemCanvasProps) {
+export default function LSystemCanvas({
+    lWord, 
+    drawRules, 
+    initialAngle, 
+    angleIncrement, 
+    origin, 
+    drawDistance
+}: LSystemCanvasProps) {
     return (
         <div className="w-full h-full">
             <Canvas>
@@ -20,9 +31,12 @@ export default function LSystemCanvas({lWord, drawRules}: LSystemCanvasProps) {
                     enableRotate={false}
                 />
                 <LSystemDisplay 
-                    origin = {[0, 0, 0]}
-                    lWord = {lWord} 
-                    drawRules = {drawRules}
+                    initialAngle={initialAngle}
+                    angleIncrement={angleIncrement}
+                    origin={origin}
+                    drawDistance={drawDistance}
+                    lWord={lWord} 
+                    drawRules={drawRules}
                 />
             </Canvas>
         </div>

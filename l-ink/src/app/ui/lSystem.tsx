@@ -5,11 +5,13 @@ import DrawInstruction from "@/app/lib/drawInstruction";
 import { useState } from "react";
 import Alphabet from '@/app/ui/alphabet';
 import Axiom from '@/app/ui/axiom';
+import Origin from '@/app/ui/origin';
 import Ruleset from '@/app/ui/ruleset';
 import ConfigButton from '@/app/ui/configButton';
 import { encodeDrawInstruction } from "@/app/lib/drawInstruction";
 import URLCharacter from "@/app/lib/urlCharacter";
 import LSystemCanvas from "./lSystemCanvas";
+import ConfigInput from "./configInput";
 
 type LSystemProps = {
     defaultAxiom: string
@@ -29,6 +31,10 @@ export default function LSystem({
     const [iterateRules, setIterateRules] = useState(defaultIterateRules);
     const [drawRules, setDrawRules] = useState(defaultDrawRules);
     const [lWord, setLWord] = useState(defaultAxiom);
+    const [initialAngle, setInitialAngle] = useState(0);
+    const [angleIncrement, setAngleIncrement] = useState(45);
+    const [origin, setOrigin] = useState([0, 0, 0] as [number, number, number]);
+    const [drawDistance, setDrawDistance] = useState(1);
 
     function handleAxiom(term?: string) {
         term = term || "";
@@ -39,6 +45,28 @@ export default function LSystem({
     function handleAlphabet(term?: string) {
         term = term || "";
         setAlphabet(term);
+    }
+    
+    function handleInitialAngle(term: string) {
+        const angle = Number(term);
+        if(!Number.isNaN(angle))
+            setInitialAngle(angle);
+    }
+
+    function handleAngleIncrement(term: string) {
+        const angle = Number(term);
+        if(!Number.isNaN(angle))
+            setAngleIncrement(angle);
+    }
+
+    function handleOrigin(position:[number, number, number]) {
+        setOrigin(position);
+    }
+
+    function handleDrawDistance(term: string) {
+        const distance = Number(term);
+        if(!Number.isNaN(distance))
+            setDrawDistance(distance);
     }
 
     function handleIterate() {
@@ -91,6 +119,28 @@ export default function LSystem({
                     axiom={axiom}
                     onChange={handleAxiom}
                 />
+                <ConfigInput
+                    onChange={handleInitialAngle}
+                    value={initialAngle}
+                    name="Initial Angle"
+                    type="number"
+                />
+                <ConfigInput
+                    onChange={handleAngleIncrement}
+                    value={angleIncrement}
+                    name="Turn Angle"
+                    type="number"
+                />
+                <ConfigInput
+                    onChange={handleDrawDistance}
+                    value={drawDistance}
+                    name="Draw Distance"
+                    type="number"
+                />
+                <Origin 
+                    onChange={handleOrigin}
+                    origin={origin}
+                />
                 <Ruleset 
                     alphabet={alphabet}
                     iterateRules={iterateRules}
@@ -101,6 +151,10 @@ export default function LSystem({
             </div>
             <div className="w-3/4 h-full">
                 <LSystemCanvas 
+                    initialAngle={initialAngle}
+                    angleIncrement={angleIncrement}
+                    origin={origin}
+                    drawDistance={drawDistance}
                     lWord = {lWord} 
                     drawRules = {drawRules}
                 />
