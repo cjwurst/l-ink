@@ -131,15 +131,15 @@ export default function LSystem({
                     name="Turn Angle"
                     type="number"
                 />
+                <Origin 
+                    onChange={handleOrigin}
+                    origin={origin}
+                />
                 <ConfigInput
                     onChange={handleDrawDistance}
                     value={drawDistance}
                     name="Draw Distance"
                     type="number"
-                />
-                <Origin 
-                    onChange={handleOrigin}
-                    origin={origin}
                 />
                 <Ruleset 
                     alphabet={alphabet}
