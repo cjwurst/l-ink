@@ -10,32 +10,55 @@ import Ruleset from '@/app/ui/ruleset';
 import ConfigButton from '@/app/ui/configButton';
 import { encodeDrawInstruction } from "@/app/lib/drawInstruction";
 import URLCharacter from "@/app/lib/urlCharacter";
+import URLParamName from "@/app/lib/urlParamNames";
 import LSystemCanvas from "./lSystemCanvas";
 import ConfigInput from "./configInput";
 
 type LSystemProps = {
+    defaultIterationCount: number
     defaultAxiom: string
     defaultAlphabet: string
     defaultIterateRules: Map<string, string>
     defaultDrawRules: Map<string, DrawInstruction>
+    defaultAngle: number
+    defaultAngleIncrement: number
+    defaultOrigin: [number, number, number]
+    defaultDrawDistance: number
 }
 
 export default function LSystem({
+    defaultIterationCount,
     defaultAxiom, 
     defaultAlphabet, 
     defaultIterateRules, 
-    defaultDrawRules
+    defaultDrawRules,
+    defaultAngle,
+    defaultAngleIncrement,
+    defaultOrigin,
+    defaultDrawDistance
 }: LSystemProps) {
-    const [iterationCount, setIterationCount] = useState(0);
+    const [iterationCount, setIterationCount] = useState(defaultIterationCount);
     const [axiom, setAxiom] = useState(defaultAxiom);
     const [alphabet, setAlphabet] = useState(defaultAlphabet);
     const [iterateRules, setIterateRules] = useState(defaultIterateRules);
     const [drawRules, setDrawRules] = useState(defaultDrawRules);
-    const [lWord, setLWord] = useState(defaultAxiom);
-    const [initialAngle, setInitialAngle] = useState(0);
-    const [angleIncrement, setAngleIncrement] = useState(45);
-    const [origin, setOrigin] = useState([0, 0, 0] as [number, number, number]);
-    const [drawDistance, setDrawDistance] = useState(1);
+    const [lWord, setLWord] = useState(findLWord(defaultAxiom, 0, defaultIterationCount));
+    const [initialAngle, setInitialAngle] = useState(defaultAngle);
+    const [angleIncrement, setAngleIncrement] = useState(defaultAngleIncrement);
+    const [origin, setOrigin] = useState(defaultOrigin);
+    const [drawDistance, setDrawDistance] = useState(defaultDrawDistance);
+
+    function findLWord(word: string, start: number, count: number): string {
+        count = Math.max(0, Math.round(count));
+        if(count < start) {
+            word = axiom;
+            start = 0;
+        }
+        for (let i = start; i < count; i++) {
+            word = iterateSystem(word, iterateRules);
+        }
+        return word;
+    }
 
     function handleIterationCount(term: string) {
         let count = Number(term);
@@ -46,22 +69,14 @@ export default function LSystem({
             setIterationCount(0);
             return;
         } 
-        count = Math.max(0, Math.round(count));
-        if(count < iterationCount) {
-            word = axiom;
-            start = 0;
-        }
-        for (let i = start; i < count; i++) {
-            word = iterateSystem(word, iterateRules);
-        }
-        setLWord(word);
+        setLWord(findLWord(word, start, count));
         setIterationCount(count);
     }
 
     function handleAxiom(term?: string) {
         term = term || "";
         setAxiom(term);
-        setLWord(term);
+        setLWord(findLWord(term, 0, iterationCount));
     }
 
     function handleAlphabet(term?: string) {
@@ -102,19 +117,30 @@ export default function LSystem({
     function handleCopyLink() {
         const params = new URLSearchParams();
 
-        params.set("alphabet", alphabet);
+        params.set(URLParamName.ITERATION_COUNT, iterationCount.toString());
 
-        params.set("axiom", axiom);
+        params.set(URLParamName.ALPHABET, alphabet);
+
+        params.set(URLParamName.AXIOM, axiom);
         
         const iterateParam = Array.from(iterateRules.entries()).map((pair) => 
             pair.join(URLCharacter.TUPLE_BREAK)).join(URLCharacter.LIST_BREAK);
-        params.set("iterate", iterateParam);
+        params.set(URLParamName.ITERATION_RULES, iterateParam);
 
         const drawParam = Array.from(drawRules.entries()).map((pair) => {
             pair[1] = encodeDrawInstruction(pair[1]) as DrawInstruction;
             return pair.join(URLCharacter.TUPLE_BREAK);
         }).join(URLCharacter.LIST_BREAK);
-        params.set("draw", drawParam);
+        params.set(URLParamName.DRAW_RULES, drawParam);
+
+        params.set(URLParamName.INITIAL_ANGLE, initialAngle.toString());
+
+        params.set(URLParamName.ANGLE_INCREMENT, angleIncrement.toString());
+
+        params.set(URLParamName.ORIGIN, origin.map((n) => n.toString())
+            .join(URLCharacter.TUPLE_BREAK));
+
+        params.set(URLParamName.DRAW_DISTANCE, drawDistance.toString());
 
         let href = window.location.href;
         href = href.split("?")[0];
