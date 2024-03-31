@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from 'react';
 import { useThree } from '@react-three/fiber'
 import DrawInstruction from '@/app/lib/drawInstruction';
-import { Line } from '@react-three/drei';
-import { useMediaQuery } from 'react-responsive';
+import { Line, OrthographicCamera, OrbitControls } from '@react-three/drei';
+import { MOUSE } from 'three';
 
 type LSystemDisplayProps = {
     initialAngle: number
@@ -13,6 +12,7 @@ type LSystemDisplayProps = {
     drawDistance: number
     lWord: string
     drawRules: Map<string, DrawInstruction>
+    lineColor?: string
 }
 
 export default function LSystemDisplay({ 
@@ -21,17 +21,12 @@ export default function LSystemDisplay({
     origin, 
     drawDistance, 
     lWord, 
-    drawRules 
+    drawRules,
+    lineColor="black"
 }: LSystemDisplayProps) {
     const cameraControls = useThree((state) => state.controls);
-    const [isDark, setIsDark] = useState(true);
-    useMediaQuery(
-        {
-            query: "(prefers-color-scheme: dark)",
-        },
-        undefined,
-        (isSystemDark) => setIsDark(isSystemDark)
-    );
+    origin = origin.map((n) => 0.1*n) as [number, number, number];
+    drawDistance *= 0.1;
 
     let angle:number = initialAngle;
     let position = origin;
@@ -40,11 +35,13 @@ export default function LSystemDisplay({
     const lines: [number, number, number][][] = [points]
     for (let i = 0; i < lWord.length; i++) {
         switch (drawRules.get(lWord[i]) || DrawInstruction.FORWARD) {
+            case DrawInstruction.NONE:
+                break;
             case DrawInstruction.FORWARD:
                 const radians = 2*Math.PI*angle/360.0;
                 position = [
-                    position[0] + drawDistance*0.1*Math.cos(radians), 
-                    position[1] + drawDistance*0.1*Math.sin(radians), 
+                    position[0] + drawDistance*Math.cos(radians), 
+                    position[1] + drawDistance*Math.sin(radians), 
                     0
                 ];
                 points.push(position);
@@ -74,7 +71,7 @@ export default function LSystemDisplay({
             <Line 
                 key={`line${i}`}
                 points={line}
-                color={isDark? "white" : "black"}
+                color={lineColor}
                 lineWidth={2}
             />
         )}

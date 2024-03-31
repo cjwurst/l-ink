@@ -1,4 +1,5 @@
 enum DrawInstruction {
+    NONE = "None",
     FORWARD = "Forward",
     TURN_LEFT = "Turn Left",
     TURN_RIGHT = "Turn Right",
