@@ -26,6 +26,7 @@ export default function LSystem({
     defaultIterateRules, 
     defaultDrawRules
 }: LSystemProps) {
+    const [iterationCount, setIterationCount] = useState(0);
     const [axiom, setAxiom] = useState(defaultAxiom);
     const [alphabet, setAlphabet] = useState(defaultAlphabet);
     const [iterateRules, setIterateRules] = useState(defaultIterateRules);
@@ -35,6 +36,27 @@ export default function LSystem({
     const [angleIncrement, setAngleIncrement] = useState(45);
     const [origin, setOrigin] = useState([0, 0, 0] as [number, number, number]);
     const [drawDistance, setDrawDistance] = useState(1);
+
+    function handleIterationCount(term: string) {
+        let count = Number(term);
+        let word = lWord;
+        let start = iterationCount;
+        if(Number.isNaN(count)) {
+            setLWord(axiom);
+            setIterationCount(0);
+            return;
+        } 
+        count = Math.max(0, Math.round(count));
+        if(count < iterationCount) {
+            word = axiom;
+            start = 0;
+        }
+        for (let i = start; i < count; i++) {
+            word = iterateSystem(word, iterateRules);
+        }
+        setLWord(word);
+        setIterationCount(count);
+    }
 
     function handleAxiom(term?: string) {
         term = term || "";
@@ -67,10 +89,6 @@ export default function LSystem({
         const distance = Number(term);
         if(!Number.isNaN(distance))
             setDrawDistance(distance);
-    }
-
-    function handleIterate() {
-        setLWord(iterateSystem(lWord, iterateRules));
     }
 
     function handleReset() {
@@ -106,11 +124,15 @@ export default function LSystem({
     return (
         <div className="flex h-full">
             <div className="w-1/4 h-full pr-4 pl-4 flex flex-col gap-4 overflow-scroll">
-                <div></div>
                 {/* <div className="overflow-scroll text-sm grow-0">{lWord}</div> */}
-                <ConfigButton onClick={handleIterate}>Iterate</ConfigButton>
                 <ConfigButton onClick={handleReset}>Reset</ConfigButton>
                 <ConfigButton onClick={handleCopyLink}>Copy Link</ConfigButton>
+                <ConfigInput 
+                    onChange={handleIterationCount}
+                    value={iterationCount}
+                    name="Number of Iterations"
+                    type="number"
+                />
                 <Alphabet 
                     alphabet={alphabet}
                     onChange={handleAlphabet}
