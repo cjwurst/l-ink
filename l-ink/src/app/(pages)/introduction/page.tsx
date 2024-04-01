@@ -32,7 +32,7 @@ export default function Home() {
                 Next, let's look at how we can turn these strings of characters into physical shapes. First, assign a "draw rule" to each character. As we read through the string, 
                 follow the rule of each character in that order. For example, at each "A" we might draw a line segment. At each "B" we might turn left by a fixed amount. 
                 You can experiment with this system by changing the draw rules of each character. Notice that each iteration of our simple L-system gets a little more complex, 
-                just like the structure of our self-similar plant examples as we zoom out.
+                just like the structure of our self-similar fern example as we zoom out.
             </div>
             <div>
 
