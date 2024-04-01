@@ -1,7 +1,7 @@
 "use client"
 
 import { Canvas } from "@react-three/fiber"
-import { Bounds, CameraControls, OrbitControls, OrthographicCamera } from "@react-three/drei";
+import { OrbitControls, OrthographicCamera } from "@react-three/drei";
 import DrawInstruction from '@/app/lib/drawInstruction';
 import LSystemDisplay from "./lSystemDisplay";
 import { MOUSE } from "three";
