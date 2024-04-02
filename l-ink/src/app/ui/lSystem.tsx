@@ -14,7 +14,7 @@ import URLParamName from "@/app/lib/urlParamNames";
 import LSystemCanvas from "./lSystemCanvas";
 import ConfigInput from "./configInput";
 
-type LSystemProps = {
+export type LSystemProps = {
     defaultIterationCount: number
     defaultAxiom: string
     defaultAlphabet: string
