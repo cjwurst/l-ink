@@ -1,17 +1,27 @@
+import LSystem from '@/app/ui/lSystem';
+import urlParamsToProps from '@/app/lib/urlParamReader';
+import { URLSearchParams } from 'url';
+
 export default function Home() {
     return (
-        <div>
+        <>
             <div>L-Systems: Exploring Self-Similarity</div>
             <div>
                 When we are first introduced to the concept of symmetry, we are exposed to only a few varieties: rotational, reflective, and translational symmetry.
                 What do these properties have in common? Rotationally symmetric shapes remain unchanged
-                when we spin them around an axis at a certain increment. In general, these shapes remain unchanged after we transform them in some way. 
+                when we spin them around an axis at a certain increment. [More examples] In general, these shapes remain unchanged after we transform them in some way. 
                 Then there are as many kinds of symmetry as there are ways to transform a shape.
             </div>
             <div>
-                Today we'll look at a particular kind of symmetry called "self-similarity." In the strictest sense, a shape is called "self-similar" if one part of it is 
-                identical to the whole. For example, [figure] is a self-similary shape called the Koch snowflake. Use [some mechanism for zooming in] to get a closer look.  
-                
+                In this article we'll look at a particular kind of symmetry called "self-similarity." In the strictest sense, a shape is called "self-similar" if one part of it is 
+                identical to the whole - the shape remains unchanged when we zoom in to a particular part of the shape. For example, [figure] displays the edge of a self-similary shape called the Koch snowflake. 
+                Use [some mechanism for zooming in] to get a closer look.  
+            </div>
+            <div className="float-left w-[300px] h-[300px]">
+                <LSystem 
+                    {...urlParamsToProps(new URLSearchParams("count=8&alphabet=a-%2B&axiom=a&iterate=.*a.a-a%2B%2Ba-a*-.-*%2B.%2B&draw=.a*-.b*%2B.c&angle=0&increment=60&origin=0.0.0&distance=1"))}
+                    disableControls
+                />
             </div>
             <div>
                 The Koch snowflake could be said to have unlimited depth - notice that as you zoom in and out, no detail
@@ -23,7 +33,7 @@ export default function Home() {
                 [Some figures with description]
             </div>
             <div>
-                A Hungarian botanist and theoretical biologist named Aristid Lindenmayer developed a mathematical model for this type of self-similarity. These
+                Hungarian botanist Aristid Lindenmayer developed a mathematical model for this type of self-similarity. These
                 "Lindenmayer systems" or "L-systems" can model massively complex self-similar structures just by following a simple set of rules to manipulate
                 strings of characters. Before we dive into more expressive systems, let's learn how these rules work by looking at a simple example. 
                 [Algae example]
@@ -37,6 +47,6 @@ export default function Home() {
             <div>
 
             </div>
-        </div>
+        </>
     );
 }
