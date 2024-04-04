@@ -1,5 +1,5 @@
 enum URLCharacter {
-    TUPLE_BREAK = ".",
+    TUPLE_BREAK = "|",
     LIST_BREAK = "*"
 }
 
