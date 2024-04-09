@@ -2,7 +2,7 @@
 
 import { iterateSystem } from "@/app/lib/lSystemHelpers";
 import DrawInstruction from "@/app/lib/drawInstruction";
-import { useState } from "react";
+import React, { useState } from "react";
 import Alphabet from '@/app/ui/alphabet';
 import Axiom from '@/app/ui/axiom';
 import Origin from '@/app/ui/origin';
@@ -24,7 +24,8 @@ export type LSystemProps = {
     defaultAngleIncrement: number
     defaultOrigin: [number, number, number]
     defaultDrawDistance: number
-    disableControls?: boolean
+    enableControls?: boolean
+    children?: React.ReactElement
 }
 
 export default function LSystem({
@@ -37,7 +38,8 @@ export default function LSystem({
     defaultAngleIncrement,
     defaultOrigin,
     defaultDrawDistance,
-    disableControls = false
+    enableControls = true,
+    children
 }: LSystemProps) {
     const [iterationCount, setIterationCount] = useState(defaultIterationCount);
     const [axiom, setAxiom] = useState(defaultAxiom);
@@ -151,7 +153,7 @@ export default function LSystem({
 
     return (
         <div className="flex h-full">
-            { !disableControls && <div className="w-1/4 h-full pr-4 pl-4 flex flex-col gap-4 overflow-scroll">
+            { enableControls && <div className="w-1/4 h-full pr-4 pl-4 flex flex-col gap-4 overflow-scroll">
                 {/* <div className="overflow-scroll text-sm grow-0">{lWord}</div> */}
                 <div />
                 <ConfigButton onClick={handleReset}>Reset</ConfigButton>
@@ -200,7 +202,7 @@ export default function LSystem({
                     onChangeDrawRules={(r:Map<string, DrawInstruction>) => setDrawRules(r)}
                 />
             </div>}
-            <div className={`w-${disableControls? "full": "3/4"} h-full`}>
+            <div className={`w-${enableControls? "full": "3/4"} h-full`}>
                 <LSystemCanvas 
                     initialAngle={initialAngle}
                     angleIncrement={angleIncrement}
@@ -208,7 +210,9 @@ export default function LSystem({
                     drawDistance={drawDistance}
                     lWord = {lWord} 
                     drawRules = {drawRules}
-                />
+                >
+                    {children}
+                </LSystemCanvas>
             </div>
         </div> 
     );
