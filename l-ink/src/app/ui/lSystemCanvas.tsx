@@ -1,12 +1,14 @@
 "use client"
 
-import { Canvas } from "@react-three/fiber"
-import { OrbitControls, OrthographicCamera } from "@react-three/drei";
+import { Canvas, RootState } from "@react-three/fiber";
+import { OrthographicCamera } from "@react-three/drei";
+import FitCameraControls from "./fitCameraControls";
 import DrawInstruction from '@/app/lib/drawInstruction';
-import LSystemDisplay from "./lSystemDisplay";
-import { MOUSE } from "three";
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { drawSystem } from "@/app/lib/lSystemHelpers";
+import { Line } from "@react-three/drei";
+import { Color } from "three";
 
 type LSystemCanvasProps = {
     lWord: string
@@ -15,6 +17,8 @@ type LSystemCanvasProps = {
     angleIncrement: number
     origin: [number, number, number]
     drawDistance: number
+    fitCameraToMesh?: boolean
+    children?: React.ReactElement
 }
 
 export default function LSystemCanvas({
@@ -23,7 +27,9 @@ export default function LSystemCanvas({
     initialAngle, 
     angleIncrement, 
     origin, 
-    drawDistance
+    drawDistance,
+    fitCameraToMesh = true,
+    children
 }: LSystemCanvasProps) {
     const [isDark, setIsDark] = useState(false);
     useMediaQuery(
@@ -33,24 +39,42 @@ export default function LSystemCanvas({
         undefined,
         (isSystemDark) => setIsDark(isSystemDark)
     );
+    const [xBounds, yBounds, lines] = drawSystem(
+        lWord, 
+        drawRules, 
+        origin, 
+        drawDistance, 
+        initialAngle, 
+        angleIncrement
+    );
+
+    function handleCanvasCreated(state: RootState) {
+        state.gl.setClearColor(new Color("white"), 0);
+    }
 
     return (
         <div className={`w-full h-full bg-${isDark? "black": "white"}`}>
-            <Canvas>
-                <OrthographicCamera makeDefault position={[0, 0, 10]}/>
-                <OrbitControls 
-                    mouseButtons={{LEFT: MOUSE.PAN}}
-                    enableRotate={false}
+            <Canvas
+                onCreated={handleCanvasCreated}
+            >
+                {children}
+                {fitCameraToMesh && <FitCameraControls
+                    xBounds={xBounds}
+                    yBounds={yBounds}
+                />}
+                <OrthographicCamera 
+                    makeDefault 
+                    position={[0, 0, 10]} 
+                    zoom={1000} 
                 />
-                <LSystemDisplay 
-                    initialAngle={initialAngle}
-                    angleIncrement={angleIncrement}
-                    origin={origin}
-                    drawDistance={drawDistance}
-                    lWord={lWord} 
-                    drawRules={drawRules}
-                    lineColor={isDark? "white": "black"}
-                />
+                {lines.map((line, i) => 
+                    <Line 
+                        key={`line${i}`}
+                        points={line}
+                        color={isDark? "white": "black"}
+                        lineWidth={2}
+                    />
+                )}
             </Canvas>
         </div>
     );
