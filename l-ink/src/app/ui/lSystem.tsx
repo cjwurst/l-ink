@@ -86,19 +86,28 @@ export default function LSystem({
         setLWord(findLWord(term, 0, iterationCount));
     }
 
+    // TODO: determine if useMemo would be better to cache changes to lWord
     function handleAlphabet(term?: string) {
         const _alphabet = term || "";
         setAlphabet(_alphabet);
 
-        setAxiom(filterByWord(axiom, _alphabet));
-
+        let lWordIsDirty = false;
+        const filteredAxiom = filterByWord(axiom, _alphabet);
+        if(filteredAxiom.length != axiom.length) lWordIsDirty = true;
+        setAxiom(filteredAxiom);
+        
         const filteredIterateRules: Map<string, string> = new Map();
         iterateRules.forEach((image, preimage) => {
-            if (!_alphabet.includes(preimage)) return;
+            if (!_alphabet.includes(preimage)) {
+                lWordIsDirty = true;
+                return;
+            }
             const filteredImage = filterByWord(image, _alphabet);
+            if(filteredImage.length != image.length) lWordIsDirty = true;
             filteredIterateRules.set(preimage, filteredImage);
         });
         setIterateRules(filteredIterateRules);
+        if(lWordIsDirty) setLWord(findLWord(filteredAxiom, 0, iterationCount));
     }
     
     function handleInitialAngle(term: string) {
