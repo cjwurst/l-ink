@@ -33,7 +33,7 @@ export default function urlParamsToProps(searchParams: URLSearchParams): LSystem
             .split(URLCharacter.LIST_BREAK);
         for (let i = 0; i < rules.length; i++) {
             const rule = rules[i].split(URLCharacter.TUPLE_BREAK);
-            result.set(rule[0], decodeDrawInstruction(rule[1]) ?? DrawInstruction.FORWARD);
+            result.set(rule[0], decodeDrawInstruction(rule[1]) ?? DrawInstruction.NONE);
         }
         return result;
     }
