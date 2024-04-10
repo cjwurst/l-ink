@@ -1,6 +1,6 @@
 'use client';
 
-import DrawInstruction from '../lib/drawInstruction';
+import DrawInstruction from '@/app/lib/drawInstruction';
 
 type RulesetProps = {
     alphabet: string
@@ -17,6 +17,7 @@ export default function Ruleset({alphabet, iterateRules, onChangeIterateRules, d
 
     function handleChangeImage(preimage: string, image: string) {
         let result = new Map(iterateRules);
+        image = Array.from(image).filter((c) => alphabet.includes(c)).join("");
         result.set(preimage, image);
         onChangeIterateRules(result);
     }

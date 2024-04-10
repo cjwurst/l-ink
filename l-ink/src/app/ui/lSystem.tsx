@@ -4,15 +4,14 @@ import { iterateSystem } from "@/app/lib/lSystemHelpers";
 import DrawInstruction from "@/app/lib/drawInstruction";
 import React, { useState } from "react";
 import Alphabet from '@/app/ui/alphabet';
-import Axiom from '@/app/ui/axiom';
 import Origin from '@/app/ui/origin';
 import Ruleset from '@/app/ui/ruleset';
 import ConfigButton from '@/app/ui/configButton';
 import { encodeDrawInstruction } from "@/app/lib/drawInstruction";
 import URLCharacter from "@/app/lib/urlCharacter";
 import URLParamName from "@/app/lib/urlParamNames";
-import LSystemCanvas from "./lSystemCanvas";
-import ConfigInput from "./configInput";
+import LSystemCanvas from "@/app/ui/lSystemCanvas";
+import ConfigInput from "@/app/ui/configInput";
 
 export type LSystemProps = {
     defaultIterationCount: number
@@ -52,6 +51,10 @@ export default function LSystem({
     const [origin, setOrigin] = useState(defaultOrigin);
     const [drawDistance, setDrawDistance] = useState(defaultDrawDistance);
 
+    function filterByWord(term: string, word: string) {
+        return Array.from(term).filter((c) => word.includes(c)).join("");
+    }
+
     function findLWord(word: string, start: number, count: number): string {
         count = Math.max(0, Math.round(count));
         if(count < start) {
@@ -79,13 +82,23 @@ export default function LSystem({
 
     function handleAxiom(term?: string) {
         term = term || "";
-        setAxiom(term);
+        setAxiom(filterByWord(term, alphabet));
         setLWord(findLWord(term, 0, iterationCount));
     }
 
     function handleAlphabet(term?: string) {
-        term = term || "";
-        setAlphabet(term);
+        const _alphabet = term || "";
+        setAlphabet(_alphabet);
+
+        setAxiom(filterByWord(axiom, _alphabet));
+
+        const filteredIterateRules: Map<string, string> = new Map();
+        iterateRules.forEach((image, preimage) => {
+            if (!_alphabet.includes(preimage)) return;
+            const filteredImage = filterByWord(image, _alphabet);
+            filteredIterateRules.set(preimage, filteredImage);
+        });
+        setIterateRules(filteredIterateRules);
     }
     
     function handleInitialAngle(term: string) {
@@ -168,9 +181,11 @@ export default function LSystem({
                     alphabet={alphabet}
                     onChange={handleAlphabet}
                 />
-                <Axiom 
-                    axiom={axiom}
+                <ConfigInput 
                     onChange={handleAxiom}
+                    name="Axiom"
+                    value={axiom}
+                    type="text"
                 />
                 <ConfigInput
                     onChange={handleInitialAngle}
