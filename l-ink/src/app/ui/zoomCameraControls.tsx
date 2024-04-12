@@ -1,5 +1,6 @@
 import { useThree } from "@react-three/fiber";
-import { RefObject, useEffect } from "react";
+import { useEffect } from "react";
+import normalizeWheel from 'normalize-wheel';
 
 type ZoomCameraControlsProps = {
     canvas: HTMLCanvasElement
@@ -7,14 +8,22 @@ type ZoomCameraControlsProps = {
 
 export default function ZoomCameraControls({canvas}: ZoomCameraControlsProps) {
     const camera = useThree((state) => state.camera);
-    const zoomFactor = 0.1;
+
+    function scrollToZoom(scroll: number): number {
+        return Math.pow(Math.E, scroll/10.0);
+    }
+
+    function zoomToScroll(zoom: number): number {
+        return 10.0*Math.log(zoom);
+    }
 
     function handleWheel(e: WheelEvent) {
         e.stopPropagation();
+        const scroll = -normalizeWheel(e).spinY;
         if (!canvas) return;
-        camera.zoom *= 1.0 + (-zoomFactor*e.deltaY);
+        camera.zoom = scrollToZoom(zoomToScroll(camera.zoom) + scroll);
         camera.updateProjectionMatrix();
-        console.log(`zoomed by ${e.deltaY} to ${camera.zoom}.`);
+        console.log(`zoomed by ${scroll} to ${camera.zoom}.`);
     }
 
     useEffect(() => {
