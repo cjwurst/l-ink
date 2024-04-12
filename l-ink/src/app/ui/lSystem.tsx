@@ -24,6 +24,8 @@ export type LSystemProps = {
     defaultOrigin: [number, number, number]
     defaultDrawDistance: number
     enableControls?: boolean
+    fitCameraToMesh?: boolean
+    enableZoom?: boolean
     children?: React.ReactElement
 }
 
@@ -38,6 +40,8 @@ export default function LSystem({
     defaultOrigin,
     defaultDrawDistance,
     enableControls = true,
+    fitCameraToMesh = true,
+    enableZoom = false,
     children
 }: LSystemProps) {
     const [iterationCount, setIterationCount] = useState(defaultIterationCount);
@@ -245,6 +249,8 @@ export default function LSystem({
                     drawDistance={drawDistance}
                     lWord = {lWord} 
                     drawRules = {drawRules}
+                    fitCameraToMesh={fitCameraToMesh}
+                    enableZoom={enableZoom}
                 >
                     {children}
                 </LSystemCanvas>
