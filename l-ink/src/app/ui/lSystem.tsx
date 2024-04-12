@@ -52,17 +52,19 @@ export default function LSystem({
     const [drawDistance, setDrawDistance] = useState(defaultDrawDistance);
 
     function filterByWord(term: string, word: string) {
+        term = term || "";
         return Array.from(term).filter((c) => word.includes(c)).join("");
     }
 
-    function findLWord(word: string, start: number, count: number): string {
+    function findLWord(word: string, start: number, count: number, rules?: Map<string, string>): string {
+        rules = rules || iterateRules;
         count = Math.max(0, Math.round(count));
         if(count < start) {
             word = axiom;
             start = 0;
         }
         for (let i = start; i < count; i++) {
-            word = iterateSystem(word, iterateRules);
+            word = iterateSystem(word, rules);
         }
         return word;
     }
@@ -103,11 +105,20 @@ export default function LSystem({
                 return;
             }
             const filteredImage = filterByWord(image, _alphabet);
-            if(filteredImage.length != image.length) lWordIsDirty = true;
+            if(filteredImage.length != (image || "").length) lWordIsDirty = true;
             filteredIterateRules.set(preimage, filteredImage);
         });
         setIterateRules(filteredIterateRules);
         if(lWordIsDirty) setLWord(findLWord(filteredAxiom, 0, iterationCount));
+    }
+
+    function handleIterateRules(rules: Map<string, string>) {
+        setLWord(findLWord(axiom, 0, iterationCount, rules));
+        setIterateRules(rules);
+    }
+
+    function handleDrawRules(rules: Map<string, DrawInstruction>) {
+        setDrawRules(rules);
     }
     
     function handleInitialAngle(term: string) {
@@ -221,9 +232,9 @@ export default function LSystem({
                 <Ruleset 
                     alphabet={alphabet}
                     iterateRules={iterateRules}
-                    onChangeIterateRules={(r:Map<string, string>) => setIterateRules(r)}
+                    onChangeIterateRules={handleIterateRules}
                     drawRules={drawRules}
-                    onChangeDrawRules={(r:Map<string, DrawInstruction>) => setDrawRules(r)}
+                    onChangeDrawRules={handleDrawRules}
                 />
             </div>}
             <div className={`w-${enableControls? "full": "3/4"} h-full`}>
