@@ -9,7 +9,7 @@ export default function Page() {
 
     return (
         <div className="h-screen">
-            <LSystem {...urlParamsToProps(searchParams)} enableZoom />
+            <LSystem {...urlParamsToProps(searchParams)} enableZoom enablePan/>
         </div>
     );
 }
