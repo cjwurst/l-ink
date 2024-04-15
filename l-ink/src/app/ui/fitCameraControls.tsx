@@ -3,15 +3,15 @@ import { useMemo } from "react";
 
 type FitCameraControlsProps = {
     xBounds: [number, number],
-    yBounds: [number, number]
+    yBounds: [number, number],
+    margin?: number
 }
 
-export default function FitCameraControls({xBounds, yBounds}: FitCameraControlsProps) {
+export default function FitCameraControls({xBounds, yBounds, margin=0}: FitCameraControlsProps) {
     const camera = useThree((state) => state.camera);
     const canvasSize = useThree((state) => state.size);
     
     useMemo(() => {
-        const margin = 0.1;
         const center = [(xBounds[0]+xBounds[1])/2, (yBounds[0]+yBounds[1])/2];
         const meshSize = [xBounds[1]-xBounds[0], yBounds[1]-yBounds[0]];
         camera.zoom = (1-margin)*Math.min(
