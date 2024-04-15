@@ -10,6 +10,7 @@ import { drawSystem } from "@/app/lib/lSystemHelpers";
 import { Line } from "@react-three/drei";
 import { Color } from "three";
 import ZoomCameraControls from "./zoomCameraControls";
+import PanCameraControls from "./panCameraControls";
 
 type LSystemCanvasProps = {
     lWord: string
@@ -20,6 +21,7 @@ type LSystemCanvasProps = {
     drawDistance: number
     fitCameraToMesh: boolean
     enableZoom: boolean
+    enablePan: boolean
     children?: React.ReactElement
 }
 
@@ -32,6 +34,7 @@ export default function LSystemCanvas({
     drawDistance,
     fitCameraToMesh,
     enableZoom,
+    enablePan,
     children
 }: LSystemCanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -70,6 +73,9 @@ export default function LSystemCanvas({
                     yBounds={yBounds}
                 />}
                 {enableZoom && <ZoomCameraControls 
+                    canvas={canvas as HTMLCanvasElement}
+                />}
+                {/*enablePan*/true && <PanCameraControls 
                     canvas={canvas as HTMLCanvasElement}
                 />}
                 <OrthographicCamera 
