@@ -37,6 +37,7 @@ export default function LSystemCanvas({
     enablePan,
     children
 }: LSystemCanvasProps) {
+    const margin = 0.1;
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [canvas, setCanvas] = useState<HTMLCanvasElement>();
     const [isDark, setIsDark] = useState(false);
@@ -71,11 +72,12 @@ export default function LSystemCanvas({
                 {fitCameraToMesh && <FitCameraControls
                     xBounds={xBounds}
                     yBounds={yBounds}
+                    margin={margin}
                 />}
                 {enableZoom && <ZoomCameraControls 
                     canvas={canvas as HTMLCanvasElement}
                 />}
-                {/*enablePan*/true && <PanCameraControls 
+                {enablePan && <PanCameraControls 
                     canvas={canvas as HTMLCanvasElement}
                 />}
                 <OrthographicCamera 
@@ -87,7 +89,7 @@ export default function LSystemCanvas({
                     <Line 
                         key={`line${i}`}
                         points={line}
-                        color={isDark? "white": "black"}
+                        color={isDark? "white": "gray"}
                         lineWidth={2}
                     />
                 )}
