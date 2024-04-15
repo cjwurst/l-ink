@@ -24,11 +24,13 @@ export default function Origin({origin, onChange}: OriginProps) {
                 name="Origin"
                 value={origin[0]}
                 type="number"
+                id="origin-x"
             />
             <ConfigInput 
                 onChange={(term) => handleChange(1 , term)}
                 value={origin[1]}
                 type="number"
+                id="origin-y"
             />
         </div>
     );
