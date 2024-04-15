@@ -9,13 +9,16 @@ type ZoomCameraControlsProps = {
 
 export default function ZoomCameraControls({canvas, loop}: ZoomCameraControlsProps) {
     const camera = useThree((state) => state.camera);
-    const zoomCoeff = 10.0;
 
     /**
      * When loop is disabled, scroll is mapped to zoom exponentially (function f) 
      * to preserve smoothness at high zoom. When loop is enabled, scroll is mapped 
      * to zoom linearly, matching the value and slope of f at loop[0].
      */
+    const zoomCoeff = 10.0;
+    const _loop = loop || [1, 1];
+    const scrollInitial = zoomToScrollNoLoop(_loop[0]); 
+    const slope = (1/zoomCoeff)*Math.pow(Math.E, scrollInitial);
 
     function scrollToZoomNoLoop(scroll: number): number {
         return Math.pow(Math.E, scroll/zoomCoeff);
@@ -23,8 +26,6 @@ export default function ZoomCameraControls({canvas, loop}: ZoomCameraControlsPro
     function scrollToZoom(scroll: number): number {
         if (!loop) return scrollToZoomNoLoop(scroll)
 
-        const scrollInitial = zoomToScrollNoLoop(loop[0]); 
-        const slope = (1/zoomCoeff)*Math.pow(Math.E, scrollInitial);
         let zoom = loop[0] + (scroll - scrollInitial)*slope;
 
         // bound the result to loop
@@ -43,8 +44,6 @@ export default function ZoomCameraControls({canvas, loop}: ZoomCameraControlsPro
         if (!loop) return zoomToScrollNoLoop(zoom);
 
         const zoomDiff = zoom - loop[0];
-        const scrollInitial = zoomToScrollNoLoop(loop[0]);
-        const slope = (1/zoomCoeff)*Math.pow(Math.E, scrollInitial);
         return zoomDiff/slope + scrollInitial;
     }
 
@@ -52,15 +51,8 @@ export default function ZoomCameraControls({canvas, loop}: ZoomCameraControlsPro
         e.stopPropagation();
         const scroll = -normalizeWheel(e).spinY;
         if (!canvas) return;
-        let targetZoom = scrollToZoom(zoomToScroll(camera.zoom) + scroll);
-        if (loop) {
-            console.log(`target zoom before: ${targetZoom}`);
-            
-            console.log(`target zoom after: ${targetZoom}`);
-        }
-        camera.zoom = targetZoom;
+        camera.zoom = scrollToZoom(zoomToScroll(camera.zoom) + scroll);
         camera.updateProjectionMatrix();
-        console.log(`zoomed by ${scroll} to ${camera.zoom}.`);
     }
 
     useEffect(() => {
