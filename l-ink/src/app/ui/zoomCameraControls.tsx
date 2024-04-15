@@ -9,13 +9,43 @@ type ZoomCameraControlsProps = {
 
 export default function ZoomCameraControls({canvas, loop}: ZoomCameraControlsProps) {
     const camera = useThree((state) => state.camera);
+    const zoomCoeff = 10.0;
 
+    /**
+     * When loop is disabled, scroll is mapped to zoom exponentially (function f) 
+     * to preserve smoothness at high zoom. When loop is enabled, scroll is mapped 
+     * to zoom linearly, matching the value and slope of f at loop[0].
+     */
+
+    function scrollToZoomNoLoop(scroll: number): number {
+        return Math.pow(Math.E, scroll/zoomCoeff);
+    }
     function scrollToZoom(scroll: number): number {
-        return Math.pow(Math.E, scroll/10.0);
+        if (!loop) return scrollToZoomNoLoop(scroll)
+
+        const scrollInitial = zoomToScrollNoLoop(loop[0]); 
+        const slope = (1/zoomCoeff)*Math.pow(Math.E, scrollInitial);
+        let zoom = loop[0] + (scroll - scrollInitial)*slope;
+
+        // bound the result to loop
+        const modulus = loop[1] - loop[0];
+        let residue = (zoom - loop[0]) % modulus;
+        if (residue < 0) residue += modulus;
+        zoom = residue + loop[0];
+
+        return zoom;
     }
 
+    function zoomToScrollNoLoop(zoom: number): number {
+        return zoomCoeff*Math.log(zoom);
+    }
     function zoomToScroll(zoom: number): number {
-        return 10.0*Math.log(zoom);
+        if (!loop) return zoomToScrollNoLoop(zoom);
+
+        const zoomDiff = zoom - loop[0];
+        const scrollInitial = zoomToScrollNoLoop(loop[0]);
+        const slope = (1/zoomCoeff)*Math.pow(Math.E, scrollInitial);
+        return zoomDiff/slope + scrollInitial;
     }
 
     function handleWheel(e: WheelEvent) {
@@ -25,10 +55,7 @@ export default function ZoomCameraControls({canvas, loop}: ZoomCameraControlsPro
         let targetZoom = scrollToZoom(zoomToScroll(camera.zoom) + scroll);
         if (loop) {
             console.log(`target zoom before: ${targetZoom}`);
-            const modulus = loop[1] - loop[0]
-            let residue = (targetZoom - loop[0]) % modulus;
-            if (residue < 0) residue += modulus;
-            targetZoom = residue + loop[0];
+            
             console.log(`target zoom after: ${targetZoom}`);
         }
         camera.zoom = targetZoom;
