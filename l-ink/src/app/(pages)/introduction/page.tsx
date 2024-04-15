@@ -20,7 +20,10 @@ export default function Home() {
             <div className="float-left w-[300px] h-[300px]">
                 <LSystem 
                     {...urlParamsToProps(new URLSearchParams("count=8&alphabet=a-%2B&axiom=a&iterate=%7C*a%7Ca-a%2B%2Ba-a*-%7C-*%2B%7C%2B&draw=%7Ca*-%7Cb*%2B%7Cc&angle=0&increment=60&origin=-3280.500000000175%7C-1893.99755807656%7C0&distance=1"))}
+                    fitCameraToMesh={false}
                     enableControls={false}
+                    enableZoom
+                    zoomLoop={[1, 3]}
                 />
             </div>
             <div>

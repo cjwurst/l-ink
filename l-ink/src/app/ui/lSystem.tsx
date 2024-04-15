@@ -26,6 +26,7 @@ export type LSystemProps = {
     enableControls?: boolean
     fitCameraToMesh?: boolean
     enableZoom?: boolean
+    zoomLoop?: [number, number]
     enablePan?: boolean
     children?: React.ReactElement
 }
@@ -43,6 +44,7 @@ export default function LSystem({
     enableControls = true,
     fitCameraToMesh = true,
     enableZoom = false,
+    zoomLoop = undefined,
     enablePan = false,
     children
 }: LSystemProps) {
@@ -253,6 +255,7 @@ export default function LSystem({
                     drawRules = {drawRules}
                     fitCameraToMesh={fitCameraToMesh}
                     enableZoom={enableZoom}
+                    zoomLoop={zoomLoop}
                     enablePan={enablePan}
                 >
                     {children}

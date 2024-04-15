@@ -21,6 +21,7 @@ type LSystemCanvasProps = {
     drawDistance: number
     fitCameraToMesh: boolean
     enableZoom: boolean
+    zoomLoop?: [number, number]
     enablePan: boolean
     children?: React.ReactElement
 }
@@ -34,6 +35,7 @@ export default function LSystemCanvas({
     drawDistance,
     fitCameraToMesh,
     enableZoom,
+    zoomLoop = undefined,
     enablePan,
     children
 }: LSystemCanvasProps) {
@@ -76,6 +78,7 @@ export default function LSystemCanvas({
                 />}
                 {enableZoom && <ZoomCameraControls 
                     canvas={canvas as HTMLCanvasElement}
+                    loop={zoomLoop}
                 />}
                 {enablePan && <PanCameraControls 
                     canvas={canvas as HTMLCanvasElement}
