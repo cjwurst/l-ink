@@ -2,15 +2,15 @@
 
 import { Canvas, RootState } from "@react-three/fiber";
 import { OrthographicCamera } from "@react-three/drei";
-import FitCameraControls from "./fitCameraControls";
+import FitCameraControls from "@/app/ui/fitCameraControls";
 import DrawInstruction from '@/app/lib/drawInstruction';
 import { useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { drawSystem } from "@/app/lib/lSystemHelpers";
 import { Line } from "@react-three/drei";
 import { Color } from "three";
-import ZoomCameraControls from "./zoomCameraControls";
-import PanCameraControls from "./panCameraControls";
+import ZoomCameraControls from "@/app/ui/zoomCameraControls";
+import PanCameraControls from "@/app/ui/panCameraControls";
 
 type LSystemCanvasProps = {
     lWord: string
