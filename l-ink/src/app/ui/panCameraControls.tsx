@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { Vector2 } from "three";
 
 type PanCameraControlsProps = {
-    canvas: HTMLCanvasElement
+    canvas: HTMLCanvasElement,
 }
 
 export default function PanCameraControls({canvas}: PanCameraControlsProps) {
@@ -19,9 +19,10 @@ export default function PanCameraControls({canvas}: PanCameraControlsProps) {
                 oldPointerRef.current.x - state.pointer.x, 
                 oldPointerRef.current.y - state.pointer.y
             );
-            const panCoeff = 200/camera.zoom;
+            const panCoeff = new Vector2(state.size.width, state.size.height);
+            panCoeff.multiplyScalar(0.5/camera.zoom);
             const target = new Vector2(camera.position.x, camera.position.y);
-            target.add(diff.multiplyScalar(panCoeff));
+            target.add(diff.multiply(panCoeff));
             
             camera.position.set(target.x, target.y, 10);
             camera.lookAt(target.x, target.y, 0);
