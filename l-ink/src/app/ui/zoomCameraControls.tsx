@@ -49,6 +49,7 @@ export default function ZoomCameraControls({canvas, loop}: ZoomCameraControlsPro
 
     function handleWheel(e: WheelEvent) {
         e.stopPropagation();
+        e.preventDefault();
         const scroll = -normalizeWheel(e).spinY;
         if (!canvas) return;
         camera.zoom = scrollToZoom(zoomToScroll(camera.zoom) + scroll);
