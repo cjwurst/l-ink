@@ -58,6 +58,7 @@ export default function LSystem({
     const [angleIncrement, setAngleIncrement] = useState(defaultAngleIncrement);
     const [origin, setOrigin] = useState(defaultOrigin);
     const [drawDistance, setDrawDistance] = useState(defaultDrawDistance);
+    const MAX_WORD = 1000000;
 
     function filterByWord(term: string, word: string) {
         term = term || "";
@@ -86,8 +87,11 @@ export default function LSystem({
             setIterationCount(0);
             return;
         } 
-        setLWord(findLWord(word, start, count));
-        setIterationCount(count);
+        if(!(count > start && word.length > MAX_WORD)) {
+            count = Math.max(count, 0);
+            setLWord(findLWord(word, start, count));
+            setIterationCount(count);
+        }
     }
 
     function handleAxiom(term?: string) {
@@ -197,7 +201,7 @@ export default function LSystem({
             { enableControls && <div className="w-1/4 h-full pr-4 pl-4 flex flex-col gap-4 overflow-scroll">
                 {/* <div className="overflow-scroll text-sm grow-0">{lWord}</div> */}
                 <div />
-                <ConfigButton onClick={handleReset}>Reset</ConfigButton>
+                <ConfigButton onClick={handleReset}>Reset to URL Parameters</ConfigButton>
                 <ConfigButton onClick={handleCopyLink}>Copy Link</ConfigButton>
                 <ConfigInput 
                     onChange={handleIterationCount}
@@ -237,13 +241,14 @@ export default function LSystem({
                     name="Draw Distance"
                     type="number"
                 />
-                <Ruleset 
+                {alphabet.length > 0 && <Ruleset 
                     alphabet={alphabet}
                     iterateRules={iterateRules}
                     onChangeIterateRules={handleIterateRules}
                     drawRules={drawRules}
                     onChangeDrawRules={handleDrawRules}
-                />
+                />}
+                <div className="mb-4"/>
             </div>}
             <div className={`w-${enableControls? "full": "3/4"} h-full`}>
                 <LSystemCanvas 
