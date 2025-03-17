@@ -11,9 +11,11 @@ export default DrawInstruction;
 
 //characters representing each instruction in copied URL
 const encode = new Map([
-    [DrawInstruction.FORWARD, "a"],
-    [DrawInstruction.TURN_LEFT, "b"],
-    [DrawInstruction.TURN_RIGHT, "c"]
+    [DrawInstruction.FORWARD, "f"],
+    [DrawInstruction.TURN_LEFT, "l"],
+    [DrawInstruction.TURN_RIGHT, "r"],
+    [DrawInstruction.SAVE, "s"],
+    [DrawInstruction.LOAD, "o"]
 ]);
 const decode = new Map(Array.from(encode).map(([k, v]) => [v, k]));
 
